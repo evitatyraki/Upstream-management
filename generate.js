@@ -2,11 +2,12 @@ const https = require('https');
 const fs = require('fs');
 
 const SHEET_IDS = {
-  LATAM:  '11TuH4d9soP3QZqSj7OCLUqfvB1Tj-JJSkMYCUgvS0Gg',
-  AFRICA: '171vqzuZpNsFTJliBVek-OqVFPGWPomkKP-HnxZPj-S4',
-  EMENA:  '1C3Wqp2YwvP7mtuS0UqAZA1y3bP08mHZLtbDyqhT_qd0',
-  ASIA:   '1KO08YiD_U-mGkVVr6wYaeqJsr7U_uPa75vrSgvfSetA',
+  LATAM:   '11TuH4d9soP3QZqSj7OCLUqfvB1Tj-JJSkMYCUgvS0Gg',
+  AFRICA:  '171vqzuZpNsFTJliBVek-OqVFPGWPomkKP-HnxZPj-S4',
+  EMENA:   '1C3Wqp2YwvP7mtuS0UqAZA1y3bP08mHZLtbDyqhT_qd0',
+  ASIA:    '1KO08YiD_U-mGkVVr6wYaeqJsr7U_uPa75vrSgvfSetA',
   REASONS: '1tHF1FaQhfjAGltsQviqtloxmbKeW6oeyFJMXZ480Yus',
+  HISTORY: '1PIGb6OboypdEIJY-yKkvzRbXLB-9owsHH0e7F-PlgGo',
 };
 
 const monMap = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
@@ -206,42 +207,24 @@ async function main() {
     } catch(e) { console.error(`${region} error:`, e.message); }
   }
 
-  // 2. Fetch Reasons sheet — get tab metadata
+  // 2. Fetch Reasons & History sheets
   let currentReasons = {}, historyRows = [];
   try {
-    const meta = await getSheetMeta(SHEET_IDS.REASONS, token);
-    const tabs = meta.sheets?.map(s=>s.properties) || [];
-    console.log('Tabs found:', tabs.map(t=>t.title).join(', '));
-
-    const currentTab = tabs.find(t=>t.title==='Current Reasons');
-    const historyTab = tabs.find(t=>t.title==='Delay History');
-
-    // Fetch Current Reasons tab
-    if (currentTab) {
-      const csv = await fetchSheet(SHEET_IDS.REASONS, token);
-      const rows = parseCSV(csv);
-      rows.forEach(r => {
-        if (r['Project Name'] && r['Delay Reason']) {
-          currentReasons[r['Project Name'].trim()] = r['Delay Reason'].trim();
-        }
-      });
-      console.log(`Loaded ${Object.keys(currentReasons).length} existing reasons`);
-    }
-
-    // Fetch Delay History tab
-    if (historyTab) {
-      try {
-        const csv2 = await fetchSheetTab(SHEET_IDS.REASONS, token, historyTab.sheetId);
-        historyRows = parseCSV(csv2);
-        console.log(`Loaded ${historyRows.length} history rows`);
-      } catch(e) { console.log('History tab fetch error:', e.message); }
-    } else {
-      // Create Delay History tab
-      console.log('Creating Delay History tab...');
-      await addSheetTab(SHEET_IDS.REASONS, token, 'Delay History');
-      await appendSheet(SHEET_IDS.REASONS, token, 'Delay History!A1', [['Date','Project Name','Region','Country','Previous Reason','New Reason']]);
-    }
+    const csv = await fetchSheet(SHEET_IDS.REASONS, token);
+    const rows = parseCSV(csv);
+    rows.forEach(r => {
+      if (r['Project Name'] && r['Delay Reason']) {
+        currentReasons[r['Project Name'].trim()] = r['Delay Reason'].trim();
+      }
+    });
+    console.log(`Loaded ${Object.keys(currentReasons).length} existing reasons`);
   } catch(e) { console.error('Reasons sheet error:', e.message); }
+
+  try {
+    const csv2 = await fetchSheet(SHEET_IDS.HISTORY, token);
+    historyRows = parseCSV(csv2);
+    console.log(`Loaded ${historyRows.length} history rows`);
+  } catch(e) { console.error('History sheet error:', e.message); }
 
   // 3. Apply reasons to projects + detect changes
   const newHistoryRows = [];
@@ -284,20 +267,20 @@ async function main() {
 
   // 5. Write updated Current Reasons
   try {
-    await updateSheet(SHEET_IDS.REASONS, token, 'Current Reasons!A1', newCurrentRows);
+    await updateSheet(SHEET_IDS.REASONS, token, 'A1', newCurrentRows);
     console.log(`Updated Current Reasons: ${newCurrentRows.length-1} projects`);
   } catch(e) { console.error('Update Current Reasons error:', e.message); }
 
-  // 6. Append new history rows
+  // 6. Append new history rows to History Sheet
   if (newHistoryRows.length > 0) {
     try {
-      await appendSheet(SHEET_IDS.REASONS, token, 'Delay History!A1', newHistoryRows);
+      await appendSheet(SHEET_IDS.HISTORY, token, 'A1', newHistoryRows);
       console.log(`Appended ${newHistoryRows.length} history rows`);
     } catch(e) { console.error('Append history error:', e.message); }
   }
 
   // 7. Reload full history for dashboard
-  let fullHistory = [...historyRows.map(r=>[r['Date'],r['Project Name'],r['Region'],r['Country'],r['Previous Reason'],r['New Reason']]), ...newHistoryRows];
+  let fullHistory = [...historyRows.map(r=>[r['Date'],r['Project Name'],r['Region'],r['Country'],r['Previous Reason']||'',r['New Reason']||r['Previous Reason']||'']), ...newHistoryRows];
 
   // 8. Generate HTML
   const html = generateHTML(allProjects, fullHistory);
