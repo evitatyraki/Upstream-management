@@ -56,6 +56,19 @@ function fetchSheet(fileId, token) {
   });
 }
 
+const DELAY_REASONS = {
+  "BR TIM Conexão Consciente 2025": "Pending TIM tariffs",
+  "BR TIM Dentro da História 2025": "Pending TIM tariffs & creative approvals",
+  "SN ORANGE BattleUp 2026": "IQR pending resolution",
+  "SN ORANGE Fantasy Sports 2026": "IQR pending resolution",
+  "NG GLO Uwisely 2025": "K8S cloud storage issues at MTN",
+  "GH MTN BattleUp 2025": "Delayed integration details from MTN",
+  "GH MTN Tourney Rush 2025": "Delayed integration details from MTN",
+  "IQ KOREK Language Learning 2025": "IQR & PRODREQ dev work pending",
+  "ID TELKOMSEL Gamedom 2025": "Internal blocks & MNO pending approvals",
+  "AF ATOMA Uwisely 2025": "Resource allocation & TOI flow changes",
+};
+
 function processSheet(csv, region) {
   const rows = parseCSV(csv);
   const now = new Date();
@@ -80,7 +93,8 @@ function processSheet(csv, region) {
       region, isDelayed:!!isD, isCompleted:isC,
       status: isC?'Completed':isD?'Delayed':'On Track',
       engDate:eng, plannedLaunch:pl, actualLaunch:al,
-      deliveryDate: al||pl||now
+      deliveryDate: al||pl||now,
+      delayReason: DELAY_REASONS[r['Project Name']?.trim()] || ''
     };
   }).filter(p=>p.engDate||p.plannedLaunch);
 }
