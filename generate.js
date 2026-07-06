@@ -590,27 +590,26 @@ function renderHistory(){
     const col=rc[data.region]||'#64748B';
     const curStatus=projectStatuses[name]||'';
     const statusCol=curStatus==='Completed'?'#38BDF8':curStatus==='Delayed'?'#EF4444':'#22C55E';
-    const tl=entries.map((e,i)=>`
-      <div class="tl-item">
-        <div class="tl-dot ${i===0?'latest':''}"></div>
-        <div class="tl-content">
-          <div class="tl-date">${e.date}</div>
-          <div class="tl-reason">${e.reason}</div>
-        </div>
-      </div>`).join('');
-    return `<div class="project-block">
-      <div class="project-header">
-        <div class="ph-left">
-          <span class="region-badge" style="background:${col}22;color:${col};border:1px solid ${col}44">${data.region}</span>
-          <span class="ph-name">${name}</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:${statusCol}18;color:${statusCol};border:1px solid ${statusCol}33">${curStatus}</span>
-          <span class="ph-count">${entries.length} update${entries.length!==1?'s':''}</span>
-        </div>
-      </div>
-      <div class="timeline">${tl}</div>
-    </div>`;
+    const tl=entries.map(function(e,i){
+      return '<div class="tl-item">'
+        +'<div class="tl-dot'+(i===0?' latest':'')+'"></div>'
+        +'<div class="tl-content">'
+        +'<div class="tl-date">'+e.date+'</div>'
+        +'<div class="tl-reason">'+e.reason+'</div>'
+        +'</div></div>';
+    }).join('');
+    return '<div class="project-block">'
+      +'<div class="project-header">'
+      +'<div class="ph-left">'
+      +'<span class="region-badge" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+data.region+'</span>'
+      +'<span class="ph-name">'+name+'</span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:12px">'
+      +'<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:'+statusCol+'18;color:'+statusCol+';border:1px solid '+statusCol+'33">'+curStatus+'</span>'
+      +'<span class="ph-count">'+entries.length+' update'+(entries.length!==1?'s':'')+'</span>'
+      +'</div></div>'
+      +'<div class="timeline">'+tl+'</div>'
+      +'</div>';
   }).join('');
 }
 </script>
