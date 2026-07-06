@@ -5,45 +5,102 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Upstream — Global PMO Roadmap</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root{--bg:#0F172A;--bg2:#0A1628;--bg3:#0D1F35;--bg4:#1E293B;--border:#1E3A5F;--text:#E2E8F0;--muted:#64748B;--subtle:#94A3B8}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
-#gate{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
-#gate h1{font-size:28px;font-weight:700}
-#gate p{color:var(--muted);font-size:14px}
-#gate input{background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:8px;font-size:15px;width:280px;outline:none}
-#gate input:focus{border-color:#38BDF8}
-#gate button{background:#38BDF8;color:#0F172A;font-weight:600;padding:12px 32px;border:none;border-radius:8px;cursor:pointer;font-size:15px;width:280px}
-#gate button:hover{opacity:.9}
-.err{color:#EF4444;font-size:13px;height:16px}
-#app{display:none}
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between}
-.logo h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
-.logo span{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
-.stats{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;gap:32px;align-items:center}
-.stat-val{font-size:28px;font-weight:700}
-.stat-lbl{font-size:12px;color:var(--muted)}
-.filters{padding:12px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
-.filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
-.filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
-.gantt-wrap{padding:0 32px 32px;overflow-x:auto}
-.gantt{min-width:900px}
-.row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
-.row.even{background:var(--bg3)}
-.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0}
-.tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap;letter-spacing:.5px}
-.ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
-.pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row-chart{flex:1;position:relative;height:100%}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --bg: #0F172A; --bg2: #0A1628; --bg3: #0D1F35; --bg4: #1E293B;
+    --border: #1E3A5F; --text: #E2E8F0; --muted: #64748B; --subtle: #94A3B8;
+    --latam: #38BDF8; --africa: #22C55E; --emena: #A78BFA; --asia: #F59E0B;
+    --delayed: #EF4444; --ontrack: #22C55E; --completed: #38BDF8; --today: #F59E0B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+  /* PASSWORD GATE */
+  #gate { position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px; }
+  #gate h1 { font-size:28px;font-weight:700;letter-spacing:-0.5px; }
+  #gate p { color:var(--muted);font-size:14px; }
+  #gate input { background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:8px;font-size:15px;width:280px;outline:none; }
+  #gate input:focus { border-color:var(--latam); }
+  #gate button { background:var(--latam);color:#0F172A;font-weight:600;padding:12px 32px;border:none;border-radius:8px;cursor:pointer;font-size:15px;width:280px; }
+  #gate button:hover { opacity:0.9; }
+  #gate .err { color:var(--delayed);font-size:13px;height:16px; }
+
+  /* MAIN APP */
+  #app { display:none; }
+
+  /* HEADER */
+  header { background:var(--bg2);border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between; }
+  .logo { display:flex;flex-direction:column;gap:2px; }
+  .logo h1 { font-size:22px;font-weight:700;letter-spacing:-0.3px; }
+  .logo span { font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase; }
+  .header-right { display:flex;align-items:center;gap:24px; }
+  .updated { font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace; }
+
+  /* REGION LEGEND */
+  .legend { display:flex;gap:12px; }
+  .leg { display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px; }
+
+  /* STATS BAR */
+  .stats { background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;gap:32px;align-items:center; }
+  .stat { display:flex;align-items:baseline;gap:8px; }
+  .stat-val { font-size:28px;font-weight:700;font-variant-numeric:tabular-nums; }
+  .stat-lbl { font-size:12px;color:var(--muted); }
+  .stats-divider { width:1px;height:32px;background:var(--border); }
+  .region-stats { display:flex;gap:16px;margin-left:auto; }
+  .rsv { font-size:12px;font-weight:500; }
+
+  /* FILTERS */
+  .filters { padding:12px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px; }
+  .filter-btn { background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s; }
+  .filter-btn:hover,.filter-btn.active { border-color:var(--latam);color:var(--latam);background:#38BDF811; }
+
+  /* GANTT */
+  .gantt-wrap { padding:0 32px 32px;overflow-x:auto; }
+  .gantt { min-width:900px; }
+
+  /* TIMELINE HEADER */
+  .timeline-header { display:flex;height:48px;margin-left:340px;position:relative;border-bottom:1px solid var(--border); }
+  .month-label { position:absolute;font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;letter-spacing:0.5px; }
+  .today-header { position:absolute;top:0;bottom:0;width:2px;background:var(--today);opacity:.6; }
+  .today-label { position:absolute;top:6px;background:var(--today);color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;transform:translateX(-50%); }
+
+  /* ROWS */
+  .row { display:flex;align-items:center;height:36px;border-bottom:1px solid #1E293B22; }
+  .row.even { background:var(--bg3); }
+  .row-left { width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0; }
+  .tag { font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap;letter-spacing:.5px; }
+  .ctry { font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center; }
+  .pname { font-size:12px;font-weight:400;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .row-chart { flex:1;position:relative;height:100%; }
+  .bar-dot { position:absolute;width:10px;height:10px;border-radius:50%;top:50%;transform:translateY(-50%);border:2px solid var(--bg);z-index:2; }
+
+  /* DELAY FLAG */
+  .flag-line { position:absolute;top:4px;bottom:4px;z-index:3;cursor:pointer; }
+  .flag-pole { width:2px;height:100%;background:var(--today); }
+  .flag-banner { position:absolute;top:-2px;left:4px;background:var(--today);color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.4;max-width:120px; }
+
+  /* STATUS PILL */
+  .status-pill { font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid;white-space:nowrap;margin-right:8px; }
+
+  /* GRID LINES */
+  .grid-lines { position:absolute;inset:0;pointer-events:none; }
+  .grid-line { position:absolute;top:0;bottom:0;width:1px;background:#1E293B; }
+
+  /* TODAY LINE in rows */
+  .today-row-line { position:absolute;top:0;bottom:0;width:1px;background:var(--today);opacity:.4;z-index:1; }
+
+  /* RESPONSIVE */
+  @media(max-width:768px) { header{flex-direction:column;gap:12px;align-items:flex-start} .stats{flex-wrap:wrap;gap:16px} .region-stats{margin-left:0} }
 </style>
 </head>
 <body>
+
+<!-- PASSWORD GATE -->
 <div id="gate">
   <div style="text-align:center">
-    <div style="font-size:40px;margin-bottom:8px">📊</div>
-    <h1>Upstream <span style="color:#38BDF8">PMO</span></h1>
-    <p style="margin-top:4px">Enter password to access the dashboard</p>
+    <div style="font-size:32px;margin-bottom:8px">📊</div>
+    <h1>Upstream PMO</h1>
+    <p>Enter password to access the dashboard</p>
   </div>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
     <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
@@ -51,410 +108,1004 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:20px 
     <div class="err" id="err"></div>
   </div>
 </div>
+
+<!-- MAIN APP -->
 <div id="app">
   <header>
     <div class="logo">
-      <h1>UPSTREAM <span style="color:#38BDF8">PMO</span></h1>
+      <h1>UPSTREAM <span style="color:var(--latam)">PMO</span></h1>
       <span>Global Program Roadmap 2026</span>
     </div>
-    <div style="display:flex;align-items:center;gap:24px">
-      <div style="display:flex;gap:10px">
-        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:#38BDF818;color:#38BDF8;border:1px solid #38BDF833"><span style="width:7px;height:7px;border-radius:50%;background:#38BDF8;display:inline-block"></span>LATAM</div><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:#22C55E18;color:#22C55E;border:1px solid #22C55E33"><span style="width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block"></span>AFRICA</div><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:#A78BFA18;color:#A78BFA;border:1px solid #A78BFA33"><span style="width:7px;height:7px;border-radius:50%;background:#A78BFA;display:inline-block"></span>EMENA</div><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:#F59E0B18;color:#F59E0B;border:1px solid #F59E0B33"><span style="width:7px;height:7px;border-radius:50%;background:#F59E0B;display:inline-block"></span>ASIA</div>
+    <div class="header-right">
+      <div class="legend">
+        <div class="leg" style="background:#38BDF818;color:#38BDF8;border:1px solid #38BDF833"><span style="width:7px;height:7px;border-radius:50%;background:#38BDF8;display:inline-block"></span>LATAM</div><div class="leg" style="background:#22C55E18;color:#22C55E;border:1px solid #22C55E33"><span style="width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block"></span>AFRICA</div><div class="leg" style="background:#A78BFA18;color:#A78BFA;border:1px solid #A78BFA33"><span style="width:7px;height:7px;border-radius:50%;background:#A78BFA;display:inline-block"></span>EMENA</div><div class="leg" style="background:#F59E0B18;color:#F59E0B;border:1px solid #F59E0B33"><span style="width:7px;height:7px;border-radius:50%;background:#F59E0B;display:inline-block"></span>ASIA</div>
       </div>
-      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">Updated: 03 Jul 2026, 00:00</div>
+      <div class="updated">Updated: 06 Jul 2026, 10:16</div>
     </div>
   </header>
+
   <div class="stats">
-    <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#E2E8F0">19</span><span class="stat-lbl">Total</span></div>
-    <div style="width:1px;height:32px;background:var(--border)"></div>
-    <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#22C55E">7</span><span class="stat-lbl">On Track</span></div>
-    <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#EF4444">8</span><span class="stat-lbl">Delayed</span></div>
-    <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#38BDF8">4</span><span class="stat-lbl">Completed</span></div>
-    <div style="display:flex;gap:16px;margin-left:auto">
-      <div style="font-size:12px;font-weight:500;color:#38BDF8">LATAM: 4</div><div style="font-size:12px;font-weight:500;color:#22C55E">AFRICA: 7</div><div style="font-size:12px;font-weight:500;color:#A78BFA">EMENA: 2</div><div style="font-size:12px;font-weight:500;color:#F59E0B">ASIA: 6</div>
+    <div class="stat"><span class="stat-val" style="color:var(--text)">51</span><span class="stat-lbl">Total</span></div>
+    <div class="stats-divider"></div>
+    <div class="stat"><span class="stat-val" style="color:var(--ontrack)">19</span><span class="stat-lbl">On Track</span></div>
+    <div class="stat"><span class="stat-val" style="color:var(--delayed)">18</span><span class="stat-lbl">Delayed</span></div>
+    <div class="stat"><span class="stat-val" style="color:var(--completed)">14</span><span class="stat-lbl">Completed</span></div>
+    <div class="region-stats">
+      <div class="rsv" style="color:#38BDF8">LATAM: 7</div><div class="rsv" style="color:#22C55E">AFRICA: 28</div><div class="rsv" style="color:#A78BFA">EMENA: 8</div><div class="rsv" style="color:#F59E0B">ASIA: 8</div>
     </div>
   </div>
+
   <div class="filters">
     <button class="filter-btn active" onclick="filter('all',this)">All</button>
-    <button class="filter-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
+    <button class="filter-btn" onclick="filter('Delayed',this)" style="">🚩 Delayed</button>
     <button class="filter-btn" onclick="filter('On Track',this)">✅ On Track</button>
     <button class="filter-btn" onclick="filter('Completed',this)">🏁 Completed</button>
     <button class="filter-btn" onclick="filterRegion('LATAM',this)" style="color:#38BDF8">LATAM</button><button class="filter-btn" onclick="filterRegion('AFRICA',this)" style="color:#22C55E">AFRICA</button><button class="filter-btn" onclick="filterRegion('EMENA',this)" style="color:#A78BFA">EMENA</button><button class="filter-btn" onclick="filterRegion('ASIA',this)" style="color:#F59E0B">ASIA</button>
   </div>
+
   <div class="gantt-wrap">
     <div class="gantt">
+      <!-- TIMELINE HEADER -->
       <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:340px;">
-        <div style="position:absolute;left:1.3157894736842104%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Jan 2026</div><div style="position:absolute;left:10.526315789473683%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Feb 2026</div><div style="position:absolute;left:19.736842105263158%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Mar 2026</div><div style="position:absolute;left:31.25%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Apr 2026</div><div style="position:absolute;left:40.46052631578947%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">May 2026</div><div style="position:absolute;left:49.67105263157895%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Jun 2026</div><div style="position:absolute;left:61.18421052631579%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Jul 2026</div><div style="position:absolute;left:70.39473684210526%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Aug 2026</div><div style="position:absolute;left:81.9078947368421%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Sep 2026</div><div style="position:absolute;left:91.11842105263158%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;letter-spacing:.5px">Oct 2026</div>
-        <div style="position:absolute;left:60.19736842105263%;top:0;bottom:0;width:1px;background:#F59E0B;opacity:.5"></div>
-        <div style="position:absolute;left:60.19736842105263%;top:8px;transform:translateX(-50%);background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">TODAY</div>
+        <div class="month-label" style="left:1.3157894736842104%">Jan 2026</div><div class="month-label" style="left:10.526315789473683%">Feb 2026</div><div class="month-label" style="left:19.736842105263158%">Mar 2026</div><div class="month-label" style="left:31.25%">Apr 2026</div><div class="month-label" style="left:40.46052631578947%">May 2026</div><div class="month-label" style="left:49.67105263157895%">Jun 2026</div><div class="month-label" style="left:61.18421052631579%">Jul 2026</div><div class="month-label" style="left:70.39473684210526%">Aug 2026</div><div class="month-label" style="left:81.9078947368421%">Sep 2026</div><div class="month-label" style="left:91.11842105263158%">Oct 2026</div>
+        <div style="position:absolute;left:61.32513423641569%;top:0;bottom:0;width:1px;background:var(--today);opacity:.5"></div>
+        <div style="position:absolute;left:61.32513423641569%;top:6px;transform:translateX(-50%);background:var(--today);color:#0F172A;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">TODAY</div>
       </div>
+
+      <!-- PROJECT ROWS -->
       <div id="rows">
-  <div class="row even" data-region="LATAM" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
-      <span class="ctry">BR</span>
-      <span class="pname" title="BR TIM Dentro da História 2025">L BR TIM Dentro da História 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:6.25%;width:52.960526315789465%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+        
+    <div class="row even" data-region="LATAM" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Conexão Consciente 2025">L BR TIM Conexão Consciente 2025</span>
       </div>
-      <div style="position:absolute;left:calc(59.210526315789465% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:38.81578947368421%;top:3px;bottom:3px;z-index:3" title="Pending TIM tariffs & creatives">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+9w
-Pending TIM tariffs & creatives</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:6.25%;width:57.23684210526315%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(63.48684210526315% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:39.14473684210527%" title="Planned: 30/04/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+11w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row " data-region="LATAM" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
-      <span class="ctry">BR</span>
-      <span class="pname" title="BR TIM Conexão Consciente 2025">L BR TIM Conexão Consciente 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:6.25%;width:52.960526315789465%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row " data-region="LATAM" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Dentro da História 2025">L BR TIM Dentro da História 2025</span>
       </div>
-      <div style="position:absolute;left:calc(59.210526315789465% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:39.14473684210527%;top:3px;bottom:3px;z-index:3" title="Pending TIM tariffs">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+9w
-Pending TIM tariffs</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:6.25%;width:59.539473684210535%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(65.78947368421053% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:38.81578947368421%" title="Planned: 29/04/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+12w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row even" data-region="AFRICA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">SN</span>
-      <span class="pname" title="SN ORANGE BattleUp 2026">F SN ORANGE BattleUp 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:3.618421052631579%;width:60.85526315789473%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG MTN Grow Advertising 2025">F NG MTN Grow Advertising 2025</span>
       </div>
-      <div style="position:absolute;left:calc(64.47368421052632% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:59.86842105263158%;top:3px;bottom:3px;z-index:3" title="IQR pending">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+2w
-IQR pending</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:20.065789473684212%;width:42.10526315789474%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(62.17105263157895% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:44.07894736842105%" title="Planned: 15/05/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+8w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row " data-region="AFRICA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">SN</span>
-      <span class="pname" title="SN ORANGE Fantasy Sports 2026">F SN ORANGE Fantasy Sports 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:3.618421052631579%;width:59.86842105263157%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">GH</span>
+        <span class="pname" title="GH MTN BattleUp 2025">F GH MTN BattleUp 2025</span>
       </div>
-      <div style="position:absolute;left:calc(63.48684210526315% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:58.88157894736842%;top:3px;bottom:3px;z-index:3" title="IQR pending">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+2w
-IQR pending</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:61.51315789473685%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.51315789473685% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:18.75%" title="Planned: 27/02/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+19w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row even" data-region="AFRICA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">NG</span>
-      <span class="pname" title="NG GLO Uwisely 2025">F NG GLO Uwisely 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:63.48684210526315%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">GH</span>
+        <span class="pname" title="GH MTN Tourney Rush Games 2025">F GH MTN Tourney Rush Games 2025</span>
       </div>
-      <div style="position:absolute;left:calc(63.48684210526315% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:22.039473684210524%;top:3px;bottom:3px;z-index:3" title="Planned: 09/03/2026">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+18w</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:61.51315789473685%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.51315789473685% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:18.75%" title="Planned: 27/02/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+19w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row " data-region="EMENA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
-      <span class="ctry">IQ</span>
-      <span class="pname" title="IQ KOREK Language Learning 2025">E IQ KOREK Language Learning 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:63.48684210526315%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">SN</span>
+        <span class="pname" title="SN ORANGE Fantasy Sports 2026">F SN ORANGE Fantasy Sports 2026</span>
       </div>
-      <div style="position:absolute;left:calc(63.48684210526315% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:33.55263157894737%;top:3px;bottom:3px;z-index:3" title="Planned: 13/04/2026">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+13w</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:38.81578947368421%;width:27.960526315789473%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(66.77631578947368% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:58.88157894736842%" title="Planned: 29/06/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+3w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row even" data-region="ASIA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">ID</span>
-      <span class="pname" title="ID TELKOMSEL Gamedom 2025">A ID TELKOMSEL Gamedom 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:58.88157894736842%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">AO</span>
+        <span class="pname" title="AO AFRICELL Promo Saga 2026">F AO AFRICELL Promo Saga 2026</span>
       </div>
-      <div style="position:absolute;left:calc(58.88157894736842% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:33.881578947368425%;top:3px;bottom:3px;z-index:3" title="Planned: 14/04/2026">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+11w</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:24.342105263157894%;width:37.17105263157896%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.51315789473685% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:45.723684210526315%" title="Planned: 20/05/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+7w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row " data-region="ASIA" data-status="Delayed">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">AF</span>
-      <span class="pname" title="AF ATOMA Uwisely 2025">A AF ATOMA Uwisely 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:57.56578947368421%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">AO</span>
+        <span class="pname" title="AO AFRICELL BattleUp 2026">F AO AFRICELL BattleUp 2026</span>
       </div>
-      <div style="position:absolute;left:calc(57.56578947368421% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      <div class="flag-line" style="position:absolute;left:34.53947368421053%;top:3px;bottom:3px;z-index:3" title="Planned: 16/04/2026">
-        <div style="width:2px;height:100%;background:#F59E0B"></div>
-        <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5">+10w</div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:24.342105263157894%;width:37.828947368421055%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(62.17105263157895% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:45.723684210526315%" title="Planned: 20/05/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+7w</div>
+        </div>
+        
       </div>
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
-  </div>
-  <div class="row even" data-region="LATAM" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
-      <span class="ctry">BR</span>
-      <span class="pname" title="BR TIM Carreira Up 2026">L BR TIM Carreira Up 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:31.57894736842105%;width:39.14473684210526%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:73.10924369747899%;height:100%;background:#22C55E;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG AIRTEL Ufitini 2026">F NG AIRTEL Ufitini 2026</span>
       </div>
-      <div style="position:absolute;left:calc(70.72368421052632% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
-    </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row " data-region="LATAM" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
-      <span class="ctry">BR</span>
-      <span class="pname" title="BR TIM Level Up 2026">L BR TIM Level Up 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:31.57894736842105%;width:39.14473684210526%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:73.10924369747899%;height:100%;background:#22C55E;border-radius:4px"></div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:29.93421052631579%;width:39.14473684210526%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(69.07894736842105% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:64.47368421052632%" title="Planned: 16/07/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+2w</div>
+        </div>
+        
       </div>
-      <div style="position:absolute;left:calc(70.72368421052632% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row even" data-region="AFRICA" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">NG</span>
-      <span class="pname" title="NG MTN Grow Advertising 2025">F NG MTN Grow Advertising 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:20.065789473684212%;width:38.815789473684205%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#22C55E;border-radius:4px"></div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG AIRTEL Swipe it 2026">F NG AIRTEL Swipe it 2026</span>
       </div>
-      <div style="position:absolute;left:calc(58.88157894736842% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
-    </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row " data-region="AFRICA" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">RW</span>
-      <span class="pname" title="RW MTN BattleUp 2025">F RW MTN BattleUp 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:8.881578947368421%;width:58.223684210526315%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:88.13559322033898%;height:100%;background:#22C55E;border-radius:4px"></div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:29.93421052631579%;width:39.14473684210526%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(69.07894736842105% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:64.47368421052632%" title="Planned: 16/07/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+2w</div>
+        </div>
+        
       </div>
-      <div style="position:absolute;left:calc(67.10526315789474% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row even" data-region="AFRICA" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">CI</span>
-      <span class="pname" title="CI MTN Uwisely MoMo 2025">F CI MTN Uwisely MoMo 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:23.355263157894736%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#22C55E;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG AIRTEL Uplingo 2026">F NG AIRTEL Uplingo 2026</span>
       </div>
-      <div style="position:absolute;left:calc(23.355263157894736% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
-    </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row " data-region="EMENA" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
-      <span class="ctry">PT</span>
-      <span class="pname" title="PT MEO Play Stories 2026">E PT MEO Play Stories 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:9.539473684210527%;width:61.51315789473684%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:82.35294117647058%;height:100%;background:#22C55E;border-radius:4px"></div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:29.93421052631579%;width:39.14473684210526%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(69.07894736842105% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:64.47368421052632%" title="Planned: 16/07/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+2w</div>
+        </div>
+        
       </div>
-      <div style="position:absolute;left:calc(71.05263157894737% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row even" data-region="ASIA" data-status="On Track">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">TH</span>
-      <span class="pname" title="TH TRUE Gameloft 2026">A TH TRUE Gameloft 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:45.39473684210527%;width:12.171052631578945%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#22C55E;border-radius:4px"></div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG AIRTEL Travel Saga 2026">F NG AIRTEL Travel Saga 2026</span>
       </div>
-      <div style="position:absolute;left:calc(57.56578947368421% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
-    </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
-  </div>
-  <div class="row " data-region="AFRICA" data-status="Completed">
-    <div class="row-left">
-      <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
-      <span class="ctry">ZA</span>
-      <span class="pname" title="ZA VODACOM Openly 2025">F ZA VODACOM Openly 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:34.21052631578947%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px"></div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:45.06578947368421%;width:24.013157894736842%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(69.07894736842105% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:66.44736842105263%" title="Planned: 22/07/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+1w</div>
+        </div>
+        
       </div>
-      <div style="position:absolute;left:calc(34.21052631578947% - 5px);width:10px;height:10px;border-radius:50%;background:#38BDF8;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
-  </div>
-  <div class="row even" data-region="ASIA" data-status="Completed">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">MY</span>
-      <span class="pname" title="MY UMOBILE Uwisely 2025">A MY UMOBILE Uwisely 2025</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:0%;width:22.039473684210524%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px"></div>
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZA</span>
+        <span class="pname" title="ZA CELLC Sat Push 2026">F ZA CELLC Sat Push 2026</span>
       </div>
-      <div style="position:absolute;left:calc(22.039473684210524% - 5px);width:10px;height:10px;border-radius:50%;background:#38BDF8;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
-    </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
-  </div>
-  <div class="row " data-region="ASIA" data-status="Completed">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">TH</span>
-      <span class="pname" title="TH AIS Gamedom 2026">A TH AIS Gamedom 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:19.736842105263158%;width:17.105263157894733%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px"></div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:52.960526315789465%;width:15.789473684210535%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(68.75% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:67.10526315789474%" title="Planned: 24/07/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+1w</div>
+        </div>
+        
       </div>
-      <div style="position:absolute;left:calc(36.84210526315789% - 5px);width:10px;height:10px;border-radius:50%;background:#38BDF8;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
-  </div>
-  <div class="row even" data-region="ASIA" data-status="Completed">
-    <div class="row-left">
-      <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
-      <span class="ctry">TH</span>
-      <span class="pname" title="TH AIS Marvel 2026">A TH AIS Marvel 2026</span>
-    </div>
-    <div class="row-chart">
-      
-      <div style="position:absolute;left:40.46052631578947%;width:10.19736842105263%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
-        <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px"></div>
+    <div class="row " data-region="EMENA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">IQ</span>
+        <span class="pname" title="IQ KOREK Language Learning 2025">E IQ KOREK Language Learning 2025</span>
       </div>
-      <div style="position:absolute;left:calc(50.6578947368421% - 5px);width:10px;height:10px;border-radius:50%;background:#38BDF8;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-      
-      
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:16.447368421052634%;width:49.342105263157904%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(65.78947368421053% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:33.55263157894737%" title="Planned: 13/04/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+14w</div>
+        </div>
+        
+      </div>
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
     </div>
-    <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
-  </div></div>
+    <div class="row even" data-region="EMENA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">PT</span>
+        <span class="pname" title="PT MEO Play Stories 2026">E PT MEO Play Stories 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:11.18421052631579%;width:62.17105263157895%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(73.35526315789474% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:71.05263157894737%" title="Planned: 05/08/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+1w</div>
+        </div>
+        
+      </div>
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
+    </div>
+    <div class="row " data-region="ASIA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">ID</span>
+        <span class="pname" title="ID TELKOMSEL Gamedom 2025">A ID TELKOMSEL Gamedom 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:61.8421052631579%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.8421052631579% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:33.881578947368425%" title="Planned: 14/04/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+12w</div>
+        </div>
+        
+      </div>
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
+    </div>
+    <div class="row even" data-region="ASIA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">AF</span>
+        <span class="pname" title="AF ATOMA Uwisely 2025">A AF ATOMA Uwisely 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:6.907894736842106%;width:55.26315789473685%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(62.17105263157895% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:34.53947368421053%" title="Planned: 16/04/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+12w</div>
+        </div>
+        
+      </div>
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
+    </div>
+    <div class="row " data-region="ASIA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">TH</span>
+        <span class="pname" title="TH TRUE Gameloft 2026">A TH TRUE Gameloft 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:45.723684210526315%;width:16.447368421052637%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(62.17105263157895% - 5px);background:#EF4444" title="Delayed"></div>
+        
+        <div class="flag-line" style="left:57.56578947368421%" title="Planned: 25/06/2026">
+          <div class="flag-pole"></div>
+          <div class="flag-banner">+2w</div>
+        </div>
+        
+      </div>
+      <div class="status-pill" style="color:#EF4444;border-color:#EF444444;background:#EF444411">Delayed</div>
+    </div>
+    <div class="row even" data-region="LATAM" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Carreira Up 2026">L BR TIM Carreira Up 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:48.026315789473685%;width:22.69736842105263%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:58.59189576623726%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(70.72368421052632% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="LATAM" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Level Up 2026">L BR TIM Level Up 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:48.026315789473685%;width:22.69736842105263%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:58.59189576623726%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(70.72368421052632% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="LATAM" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">SV</span>
+        <span class="pname" title="SV DIGICEL Gamedom 2026">L SV DIGICEL Gamedom 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:57.56578947368421%;width:15.460526315789473%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:24.315761869582346%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(73.02631578947368% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">RW</span>
+        <span class="pname" title="RW MTN BattleUp 2025">F RW MTN BattleUp 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:8.881578947368421%;width:52.44350524640595%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.32508419377437% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG GLO Uwisely 2025">F NG GLO Uwisely 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:4.276315789473684%;width:17.76315789473684%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(22.039473684210524% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">CI</span>
+        <span class="pname" title="CI MTN Uwisely MoMo 2025">F CI MTN Uwisely MoMo 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:4.276315789473684%;width:19.07894736842105%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(23.355263157894736% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">SN</span>
+        <span class="pname" title="SN ORANGE BattleUp 2026">F SN ORANGE BattleUp 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:38.81578947368421%;width:21.05263157894737%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(59.86842105263158% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">SN</span>
+        <span class="pname" title="SN ORANGE Uwisely 2026">F SN ORANGE Uwisely 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:38.81578947368421%;width:25.657894736842103%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:87.72872830603039%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(64.47368421052632% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG MTN MyFinance 2026">F NG MTN MyFinance 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:11.18421052631579%;width:55.92105263157895%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:89.66376945806101%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(67.10526315789474% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG MTN MyGrowth 2026">F NG MTN MyGrowth 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:11.18421052631579%;width:59.86842105263158%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:83.75187257071633%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(71.05263157894737% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">AO</span>
+        <span class="pname" title="AO AFRICELL Zero-D 2026">F AO AFRICELL Zero-D 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:37.17105263157895%;width:24.15403156219542%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.32508419377437% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZM</span>
+        <span class="pname" title="ZM MTN Tourney Rush 2026">F ZM MTN Tourney Rush 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:45.723684210526315%;width:25%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:62.40580010355751%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(70.72368421052632% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZM</span>
+        <span class="pname" title="ZM MTN BattleUp 2026">F ZM MTN BattleUp 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:45.723684210526315%;width:21.05263157894737%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:74.10688762297454%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(66.77631578947368% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG MTN Gamedom 2026">F NG MTN Gamedom 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:46.05263157894737%;width:15.272452614827003%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(61.32508419377437% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG MTN AIPix 2026">F NG MTN AIPix 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:46.05263157894737%;width:25.328947368421055%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:60.29663386844637%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(71.38157894736842% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZA</span>
+        <span class="pname" title="ZA VODACOM Tourney Rush 2026">F ZA VODACOM Tourney Rush 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:47.69736842105263%;width:25.98684210526315%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:52.44102288443507%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(73.68421052631578% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="EMENA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">FR</span>
+        <span class="pname" title="FR DROM Cross-Operator English Lessons 2026">E FR DROM Cross-Operator English Lessons…</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:48.35526315789473%;width:24.342105263157897%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:53.28163253878879%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(72.69736842105263% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="EMENA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">FR</span>
+        <span class="pname" title="FR DROM Cross-Operator Spanish Lessons 2026">E FR DROM Cross-Operator Spanish Lessons…</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:48.35526315789473%;width:24.342105263157897%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:53.28163253878879%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(72.69736842105263% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row even" data-region="ASIA" data-status="On Track">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">TH</span>
+        <span class="pname" title="TH AIS Swipe It 2026">A TH AIS Swipe It 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:59.539473684210535%;width:16.447368421052616%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:10.856816157407408%;height:100%;background:#22C55E;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(75.98684210526315% - 5px);background:#22C55E" title="On Track"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#22C55E;border-color:#22C55E44;background:#22C55E11">On Track</div>
+    </div>
+    <div class="row " data-region="LATAM" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Port Out 2025">L BR TIM Port Out 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:38.48684210526316%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(38.48684210526316% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="LATAM" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
+        <span class="ctry">BR</span>
+        <span class="pname" title="BR TIM Gamedom 2025">L BR TIM Gamedom 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:31.57894736842105%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(31.57894736842105% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG GLO Travel Saga 2025">F NG GLO Travel Saga 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:3.618421052631579%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(3.618421052631579% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">NG</span>
+        <span class="pname" title="NG AIRTEL Uwisely 2025">F NG AIRTEL Uwisely 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:24.342105263157894%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(24.342105263157894% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZA</span>
+        <span class="pname" title="ZA VODACOM Openly 2025">F ZA VODACOM Openly 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:16.447368421052634%;width:17.76315789473684%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(34.21052631578947% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="AFRICA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry">ZA</span>
+        <span class="pname" title="ZA VODACOM The Kulture Dj Tira's World 2026">F ZA VODACOM The Kulture Dj Tira's World…</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:16.447368421052634%;width:20.72368421052632%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(37.17105263157895% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="EMENA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">SA</span>
+        <span class="pname" title="SA MOBILY Language Learning 2025">E SA MOBILY Language Learning 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:6.25%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(6.25% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="EMENA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">KW</span>
+        <span class="pname" title="KW ZAIN Daily Challenge 2025">E KW ZAIN Daily Challenge 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:18.421052631578945%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(18.421052631578945% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="EMENA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">DZ</span>
+        <span class="pname" title="DZ OOREDOO Uwisely 2025">E DZ OOREDOO Uwisely 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:18.421052631578945%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(18.421052631578945% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="EMENA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
+        <span class="ctry">DZ</span>
+        <span class="pname" title="DZ OOREDOO AIPix 2025">E DZ OOREDOO AIPix 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:45.06578947368421%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(45.06578947368421% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="ASIA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">BD</span>
+        <span class="pname" title="BD BANGLALINK Gamedom 2025">A BD BANGLALINK Gamedom 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:35.85526315789473%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(35.85526315789473% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="ASIA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">MY</span>
+        <span class="pname" title="MY UMOBILE Uwisely 2025">A MY UMOBILE Uwisely 2025</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:0%;width:22.039473684210524%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(22.039473684210524% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row " data-region="ASIA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">TH</span>
+        <span class="pname" title="TH AIS Gamedom 2026">A TH AIS Gamedom 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:21.052631578947366%;width:15.789473684210524%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(36.84210526315789% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+    <div class="row even" data-region="ASIA" data-status="Completed">
+      <div class="row-left">
+        <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
+        <span class="ctry">TH</span>
+        <span class="pname" title="TH AIS Marvel 2026">A TH AIS Marvel 2026</span>
+      </div>
+      <div class="row-chart">
+        
+        <div class="bar-track" style="left:40.78947368421053%;width:9.868421052631575%;background:#38BDF822;border:1px solid #38BDF844;border-radius:4px;position:absolute;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#38BDF8;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div class="bar-dot" style="left:calc(50.6578947368421% - 5px);background:#38BDF8" title="Completed"></div>
+        
+        
+      </div>
+      <div class="status-pill" style="color:#38BDF8;border-color:#38BDF844;background:#38BDF811">Completed</div>
+    </div>
+      </div>
     </div>
   </div>
 </div>
+
 <script>
-const PW='Upstreammanagement!';
-function checkPw(){
-  if(document.getElementById('pw').value===PW){
+const RC = {"LATAM":"#38BDF8","AFRICA":"#22C55E","EMENA":"#A78BFA","ASIA":"#F59E0B"};
+const PW = 'Upstreammanagement!';
+
+function checkPw() {
+  const v = document.getElementById('pw').value;
+  if (v === PW) {
     document.getElementById('gate').style.display='none';
     document.getElementById('app').style.display='block';
     sessionStorage.setItem('pmo_auth','1');
@@ -463,9 +1114,28 @@ function checkPw(){
     setTimeout(()=>document.getElementById('err').textContent='',2000);
   }
 }
-if(sessionStorage.getItem('pmo_auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';}
-function filter(s,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.row').forEach(r=>{r.style.display=(s==='all'||r.dataset.status===s)?'flex':'none';});}
-function filterRegion(r,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.row').forEach(row=>{row.style.display=row.dataset.region===r?'flex':'none';});}
+
+// Auto-login if already authenticated this session
+if (sessionStorage.getItem('pmo_auth')==='1') {
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+
+function filter(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.row').forEach(r=>{
+    r.style.display = (status==='all'||r.dataset.status===status)?'flex':'none';
+  });
+}
+
+function filterRegion(region, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.row').forEach(r=>{
+    r.style.display = r.dataset.region===region?'flex':'none';
+  });
+}
 </script>
 </body>
 </html>
