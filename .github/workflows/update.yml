@@ -1,0 +1,44 @@
+name: Update PMO Roadmap
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get Google OAuth token
+        id: token
+        run: |
+          TOKEN=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -d "client_id=${{ secrets.GOOGLE_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}" \
+            -d "refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}" \
+            -d "grant_type=refresh_token" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Generate dashboard
+        env:
+          GOOGLE_TOKEN: ${{ steps.token.outputs.token }}
+        run: node generate.js
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config user.name "PMO Bot"
+          git config user.email "pmo-bot@upstream"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
