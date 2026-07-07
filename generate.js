@@ -178,6 +178,7 @@ function processSheet(csv, region) {
     const isC=st==='LI', isD=!isC&&al&&pl&&al>pl;
     return {
       name: r['Project Name'].trim(),
+      tlc: r['3LC']?.trim()||'',
       country: r['Country']?.trim()||'',
       region, isDelayed:!!isD, isCompleted:isC,
       status: isC?'Completed':isD?'Delayed':'On Track',
@@ -336,8 +337,9 @@ function generateHTML(projects, historyData) {
     const flagPct=p.isDelayed&&p.plannedLaunch?(p.plannedLaunch-rangeStart)/totalMs*100:null;
     const delayCal=p.isDelayed&&p.plannedLaunch?Math.round((p.deliveryDate-p.plannedLaunch)/(1000*60*60*24*7)):0;
     const prefix=RL[p.region]||'';
-    const fullName=`${prefix} ${p.name}`;
-    const dn=fullName.length>38?fullName.slice(0,36)+'…':fullName;
+    const tlcPart=p.tlc?'['+p.tlc+'] ':'';
+    const fullName=prefix+' '+tlcPart+p.name;
+    const dn=fullName.length>44?fullName.slice(0,42)+'…':fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
       <div class="row-left">
@@ -351,6 +353,17 @@ function generateHTML(projects, historyData) {
           <div style="width:${prog}%;height:100%;background:${col};border-radius:4px"></div>
         </div>
         <div style="position:absolute;left:calc(${ep}% - 5px);width:10px;height:10px;border-radius:50%;background:${col};top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        ${(function(){
+          const pl=p.plannedLaunch;
+          if(!pl) return '';
+          const plPct=Math.min(100,(pl-rangeStart)/totalMs*100);
+          const dd=String(pl.getDate()).padStart(2,'0');
+          const mm=String(pl.getMonth()+1).padStart(2,'0');
+          return '<div style="position:absolute;left:calc('+plPct+'% - 4px);top:50%;transform:translateY(-50%);z-index:4">'
+            +'<div style="width:8px;height:8px;border-radius:50%;background:#0F172A;border:2px solid '+col+';margin-bottom:2px"></div>'
+            +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:8px;color:'+col+';white-space:nowrap;font-weight:600">'+dd+'/'+mm+'</div>'
+            +'</div>';
+        })()}
         ${flagPct!==null?`
         <div style="position:absolute;left:${flagPct}%;top:3px;bottom:3px;z-index:3" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
           <div style="width:2px;height:100%;background:#F59E0B"></div>
