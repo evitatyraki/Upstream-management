@@ -328,9 +328,13 @@ function generateHTML(projects, historyData) {
   // Gantt rows
   const rowsHTML = sorted.map((p,i)=>{
     const eng=(p.engDate||p.plannedLaunch||now).getTime();
-    const del=p.deliveryDate.getTime();
+    const rawDel = p.deliveryDate.getTime();
+    // For delayed with future actual: solid bar to TODAY, ghost bar TODAY→actual
+    const isFutureDelayed = p.isDelayed && !p.isCompleted && rawDel > now.getTime();
+    const del = isFutureDelayed ? now.getTime() : rawDel;
     const sp=Math.max(0,(eng-rangeStart)/totalMs*100);
     const ep=Math.min(100,(del-rangeStart)/totalMs*100);
+    const epFull=Math.min(100,(rawDel-rangeStart)/totalMs*100);
     const barW=Math.max(0.5,ep-sp);
     const col=p.isCompleted?'#38BDF8':p.isDelayed?'#EF4444':'#22C55E';
     const prog=(p.isCompleted||p.isDelayed)?100:Math.min(100,(now-eng)/Math.max(1,del-eng)*100);
@@ -353,16 +357,30 @@ function generateHTML(projects, historyData) {
           <div style="width:${prog}%;height:100%;background:${col};border-radius:4px"></div>
         </div>
         <div style="position:absolute;left:calc(${ep}% - 5px);width:10px;height:10px;border-radius:50%;background:${col};top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        ${isFutureDelayed?'<div style="position:absolute;left:'+ep+'%;width:'+(epFull-ep)+'%;background:'+col+'33;border:1px solid '+col+'66;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div>'+'<div style="position:absolute;left:calc('+epFull+'% - 5px);width:10px;height:10px;border-radius:50%;background:'+col+'44;top:50%;transform:translateY(-50%);border:2px dashed '+col+';z-index:2"></div>':''}
         ${(function(){
+          let out='';
           const pl=p.plannedLaunch;
-          if(!pl) return '';
-          const plPct=Math.min(100,(pl-rangeStart)/totalMs*100);
-          const dd=String(pl.getDate()).padStart(2,'0');
-          const mm=String(pl.getMonth()+1).padStart(2,'0');
-          return '<div style="position:absolute;left:calc('+plPct+'% - 4px);top:50%;transform:translateY(-50%);z-index:4">'
-            +'<div style="width:8px;height:8px;border-radius:50%;background:#0F172A;border:2px solid '+col+';margin-bottom:2px"></div>'
-            +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:8px;color:'+col+';white-space:nowrap;font-weight:600">'+dd+'/'+mm+'</div>'
-            +'</div>';
+          if(pl){
+            const plPct=Math.min(100,(pl-rangeStart)/totalMs*100);
+            const dd=String(pl.getDate()).padStart(2,'0');
+            const mm=String(pl.getMonth()+1).padStart(2,'0');
+            out+='<div style="position:absolute;left:calc('+plPct+'% - 4px);top:calc(50% - 9px);transform:translateY(-50%);z-index:4">'
+              +'<div style="width:8px;height:8px;border-radius:50%;background:#0F172A;border:2px solid '+col+'" title="Planned: '+dd+'/'+mm+'"></div>'
+              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:'+col+';white-space:nowrap;font-weight:600">P '+dd+'/'+mm+'</div>'
+              +'</div>';
+          }
+          const al=p.actualLaunch;
+          if(al){
+            const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
+            const add=String(al.getDate()).padStart(2,'0');
+            const amm=String(al.getMonth()+1).padStart(2,'0');
+            out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 5px);transform:translateY(-50%);z-index:4">'
+              +'<div style="width:8px;height:8px;border-radius:50%;background:'+col+';border:2px solid #0F172A" title="Actual: '+add+'/'+amm+'"></div>'
+              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:'+col+';white-space:nowrap;font-weight:600">A '+add+'/'+amm+'</div>'
+              +'</div>';
+          }
+          return out;
         })()}
         ${flagPct!==null?`
         <div style="position:absolute;left:${flagPct}%;top:3px;bottom:3px;z-index:3" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
