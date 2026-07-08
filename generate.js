@@ -7,7 +7,7 @@ const SHEET_IDS = {
   EMENA:   '1C3Wqp2YwvP7mtuS0UqAZA1y3bP08mHZLtbDyqhT_qd0',
   ASIA:    '1KO08YiD_U-mGkVVr6wYaeqJsr7U_uPa75vrSgvfSetA',
   REASONS: '1tHF1FaQhfjAGltsQviqtloxmbKeW6oeyFJMXZ480Yus',
-  HISTORY: '1PIGb6OboypdEIJY-yKkvzRbXLB-9owsHH0e7F-PlgGo',
+  HISTORY: '1yb-6ukbsnDuqy-Xjm8zjPUVgAIg4Dp53V3jg97D8e8Q',
 };
 
 const monMap = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
@@ -186,7 +186,7 @@ function processSheet(csv, region) {
       deliveryDate: al||pl||now,
       delayReason: ''
     };
-  }).filter(p=>p.engDate||p.plannedLaunch);
+  }).filter(p=>(p.engDate||p.plannedLaunch) && (p.plannedLaunch||p.actualLaunch));
 }
 
 async function main() {
@@ -272,8 +272,14 @@ async function main() {
     console.log(`Updated Current Reasons: ${newCurrentRows.length-1} projects`);
   } catch(e) { console.error('Update Current Reasons error:', e.message); }
 
-  // 6. Append new history rows to History Sheet
-  if (newHistoryRows.length > 0) {
+  // 6. Clear history sheet and rewrite (first run = headers only, then append changes)
+  const isFirstRun = historyRows.length === 0;
+  if (isFirstRun) {
+    try {
+      await updateSheet(SHEET_IDS.HISTORY, token, 'A1', [['Date','Project Name','Region','Country','Previous Reason','New Reason']]);
+      console.log('History sheet cleared and initialized');
+    } catch(e) { console.error('Clear history error:', e.message); }
+  } else if (newHistoryRows.length > 0) {
     try {
       await appendSheet(SHEET_IDS.HISTORY, token, 'A1', newHistoryRows);
       console.log(`Appended ${newHistoryRows.length} history rows`);
@@ -340,10 +346,9 @@ function generateHTML(projects, historyData) {
     const prog=(p.isCompleted||p.isDelayed)?100:Math.min(100,(now-eng)/Math.max(1,del-eng)*100);
     const flagPct=p.isDelayed&&p.plannedLaunch?(p.plannedLaunch-rangeStart)/totalMs*100:null;
     const delayCal=p.isDelayed&&p.plannedLaunch?Math.round((p.deliveryDate-p.plannedLaunch)/(1000*60*60*24*7)):0;
-    const prefix=RL[p.region]||'';
-    const tlcPart=p.tlc?'['+p.tlc+'] ':'';
-    const fullName=prefix+' '+tlcPart+p.name;
-    const dn=fullName.length>44?fullName.slice(0,42)+'…':fullName;
+    const tlcSuffix=p.tlc?' ['+p.tlc+']':'';
+    const fullName=p.name+tlcSuffix;
+    const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
       <div class="row-left">
@@ -366,12 +371,13 @@ function generateHTML(projects, historyData) {
             const dd=String(pl.getDate()).padStart(2,'0');
             const mm=String(pl.getMonth()+1).padStart(2,'0');
             out+='<div style="position:absolute;left:calc('+plPct+'% - 4px);top:calc(50% - 9px);transform:translateY(-50%);z-index:4">'
-              +'<div style="width:8px;height:8px;border-radius:50%;background:#0F172A;border:2px solid '+col+'" title="Planned: '+dd+'/'+mm+'"></div>'
-              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:'+col+';white-space:nowrap;font-weight:600">P '+dd+'/'+mm+'</div>'
+              +'<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;border:2px solid #94A3B8" title="Planned: '+dd+'/'+mm+'"></div>'
+              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#94A3B8;white-space:nowrap;font-weight:600">P '+dd+'/'+mm+'</div>'
               +'</div>';
           }
           const al=p.actualLaunch;
-          if(al){
+          const sameDate = al && pl && al.toDateString()===pl.toDateString();
+          if(al && !sameDate){
             const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
             const add=String(al.getDate()).padStart(2,'0');
             const amm=String(al.getMonth()+1).padStart(2,'0');
@@ -385,7 +391,7 @@ function generateHTML(projects, historyData) {
         ${flagPct!==null?`
         <div style="position:absolute;left:${flagPct}%;top:3px;bottom:3px;z-index:3" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
           <div style="width:2px;height:100%;background:#F59E0B"></div>
-          <div style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:pre;line-height:1.5;max-width:130px">+${delayCal}w${p.delayReason?'\n'+p.delayReason:''}</div>
+          <div title="${p.delayReason||''}" style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;cursor:help">+${delayCal}w</div>
         </div>`:''}
         `:''}
       </div>
