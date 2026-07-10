@@ -339,7 +339,9 @@ function generateHTML(projects, historyData) {
     const isFutureDelayed = p.isDelayed && !p.isCompleted && rawDel > now.getTime();
     const del = isFutureDelayed ? now.getTime() : rawDel;
     const sp=Math.max(0,(eng-rangeStart)/totalMs*100);
-    const ep=Math.min(100,(del-rangeStart)/totalMs*100);
+    // If bar end is in the past and project not completed/launched, snap to TODAY
+    const barEndInPast = del < now.getTime() && !p.actualLaunch && !p.isCompleted;
+    const ep=isFutureDelayed ? todayPct : barEndInPast ? todayPct : Math.min(100,(del-rangeStart)/totalMs*100);
     const epFull=Math.min(100,(rawDel-rangeStart)/totalMs*100);
     const barW=Math.max(0.5,ep-sp);
     const col=p.isCompleted?'#38BDF8':p.isDelayed?'#EF4444':'#22C55E';
