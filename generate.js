@@ -321,13 +321,13 @@ function generateHTML(projects, historyData) {
   ['LATAM','AFRICA','EMENA','ASIA'].forEach(r=>regionCounts[r]=projects.filter(p=>p.region===r).length);
 
   // Month markers
-  const months=[], seenM=new Set();
-  const wd=new Date(rangeStart);
-  while(wd.getDay()!==1) wd.setDate(wd.getDate()+1);
-  while(wd<=rangeEnd){
-    const k=wd.getFullYear()+'-'+wd.getMonth();
-    if(!seenM.has(k)){seenM.add(k);months.push({pct:(wd-rangeStart)/totalMs*100,label:wd.toLocaleString('en',{month:'short',year:'numeric'})});}
-    wd.setDate(wd.getDate()+7);
+  // Month labels: position from 1st of each month for correct alignment
+  const months=[];
+  for(let m=0; m<12; m++){
+    const d=new Date(year,m,1);
+    if(d<rangeStart||d>rangeEnd) continue;
+    const pct=(d-rangeStart)/totalMs*100;
+    if(pct>=0&&pct<=100) months.push({pct,label:d.toLocaleString('en',{month:'short',year:'numeric'})});
   }
   const todayPct=(now-rangeStart)/totalMs*100;
 
