@@ -528,7 +528,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:340px;">
           ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px">${m.label}</div>`).join('')}
-          <div style="position:absolute;left:${todayPct}%;top:0;bottom:0;width:2px;background:#F59E0B;z-index:10"></div>
+
         </div>
         <div id="rows">${rowsHTML}</div>
       </div>
