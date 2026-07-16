@@ -298,8 +298,9 @@ async function main() {
 function generateHTML(projects, historyData) {
   const now = new Date();
   const year = now.getFullYear();
+  // Full year range, scrollable
   const rangeStart = new Date(year,0,1);
-  const rangeEnd = new Date(year,now.getMonth()+4,1);
+  const rangeEnd = new Date(year,11,1);
   const totalMs = rangeEnd - rangeStart;
   const RC = {LATAM:'#38BDF8',AFRICA:'#22C55E',EMENA:'#A78BFA',ASIA:'#F59E0B'};
   const RL = {LATAM:'L',AFRICA:'F',EMENA:'E',ASIA:'A'};
@@ -329,7 +330,7 @@ function generateHTML(projects, historyData) {
     const pct=(d-rangeStart)/totalMs*100;
     if(pct>=0&&pct<=100) months.push({pct,label:d.toLocaleString('en',{month:'short',year:'numeric'})});
   }
-  const todayPct=(now-rangeStart)/totalMs*100;
+  const todayPct=Math.min(100,Math.max(0,(now-rangeStart)/totalMs*100));
 
   // Gantt rows
   const rowsHTML = sorted.map((p,i)=>{
@@ -442,8 +443,8 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .filters{padding:10px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
 .filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
 .filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
-.gantt-wrap{padding:0 32px 32px;overflow-x:auto}
-.gantt{min-width:900px}
+.gantt-wrap{padding:0 32px 32px;overflow-x:auto;scroll-behavior:smooth}
+.gantt{min-width:1800px;width:1800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
 .row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0}
@@ -561,6 +562,7 @@ function checkPw(){
     document.getElementById('app').style.display='block';
     sessionStorage.setItem('pmo_auth','1');
     renderHistory();
+    setTimeout(scrollToToday,100);
   } else {
     document.getElementById('err').textContent='Incorrect password';
     setTimeout(()=>document.getElementById('err').textContent='',2000);
@@ -578,6 +580,18 @@ function showMainTab(tab, el){
   document.getElementById('roadmap-tab').style.display = tab==='roadmap'?'block':'none';
   document.getElementById('history-tab').style.display = tab==='history'?'block':'none';
 }
+
+// Auto-scroll so TODAY is visible (centered)
+function scrollToToday(){
+  const wrap = document.querySelector('.gantt-wrap');
+  const gantt = document.querySelector('.gantt');
+  if(!wrap||!gantt) return;
+  const ganttW = gantt.offsetWidth;
+  const todayPx = ${todayPct} / 100 * ganttW;
+  const wrapW = wrap.offsetWidth;
+  wrap.scrollLeft = todayPx - wrapW/2;
+}
+if(sessionStorage.getItem('pmo_auth')==='1') setTimeout(scrollToToday,100);
 
 function filter(s,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
