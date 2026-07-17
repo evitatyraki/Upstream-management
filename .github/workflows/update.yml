@@ -2,7 +2,7 @@ name: Update PMO Roadmap
 
 on:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '*/30 5-18 * * *'
   workflow_dispatch:
 
 jobs:
