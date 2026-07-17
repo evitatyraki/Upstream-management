@@ -228,10 +228,28 @@ async function main() {
   } catch(e) { console.error('History sheet error:', e.message); }
 
   // 3. Apply reasons to projects + detect changes
+  // Build map of latest reason per project from history sheet
+  const latestInHistory = {};
+  historyRows.forEach(r => {
+    const name = r['Project Name'];
+    if (name) latestInHistory[name] = r['New Reason'] || r['Previous Reason'] || '';
+  });
+
   const newHistoryRows = [];
+  const today = now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+
   allProjects.forEach(p => {
-    const existing = currentReasons[p.name] || '';
-    p.delayReason = existing;
+    const currentReason = currentReasons[p.name] || '';
+    p.delayReason = currentReason;
+    // If reason changed since last history entry → log old reason
+    const lastHistorical = latestInHistory[p.name] || '';
+    if (currentReason && lastHistorical && currentReason !== lastHistorical) {
+      newHistoryRows.push([today, p.name, p.region, p.country, lastHistorical, currentReason]);
+      console.log(`History: ${p.name} changed reason`);
+    } else if (currentReason && !lastHistorical) {
+      // First time this project gets a reason → log it
+      newHistoryRows.push([today, p.name, p.region, p.country, '', currentReason]);
+    }
   });
 
   // 4. Sync Current Reasons sheet:
@@ -298,9 +316,9 @@ async function main() {
 function generateHTML(projects, historyData) {
   const now = new Date();
   const year = now.getFullYear();
-  // Full year range, scrollable
+  // Full year range Jan 1 → Dec 31, scrollable
   const rangeStart = new Date(year,0,1);
-  const rangeEnd = new Date(year,11,1);
+  const rangeEnd = new Date(year,11,31);
   const totalMs = rangeEnd - rangeStart;
   const RC = {LATAM:'#38BDF8',AFRICA:'#22C55E',EMENA:'#A78BFA',ASIA:'#F59E0B'};
   const RL = {LATAM:'L',AFRICA:'F',EMENA:'E',ASIA:'A'};
@@ -444,7 +462,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
 .filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
 .gantt-wrap{padding:0 32px 32px;overflow-x:auto;scroll-behavior:smooth}
-.gantt{min-width:1800px;width:1800px}
+.gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
 .row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0}
@@ -454,7 +472,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .row-chart{flex:1;position:relative;height:100%}
 /* History tab */
 #history-tab{display:none;padding:24px 32px}
-.hist-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.hist-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
 .hist-select{background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer}
 .project-block{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
 .project-header{padding:12px 16px;background:var(--bg3);display:flex;align-items:center;justify-content:space-between}
@@ -545,13 +563,21 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
         <option value="">All statuses</option>
         <option>Delayed</option><option>On Track</option><option>Completed</option>
       </select>
+      <a href="https://docs.google.com/spreadsheets/d/1tHF1FaQhfjAGltsQviqtloxmbKeW6oeyFJMXZ480Yus/edit?gid=695531852#gid=695531852"
+         target="_blank"
+         style="margin-left:auto;display:flex;align-items:center;gap:6px;background:#1E293B;border:1px solid #1E3A5F;color:#94A3B8;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;transition:all .15s"
+         onmouseover="this.style.borderColor='#38BDF8';this.style.color='#38BDF8'"
+         onmouseout="this.style.borderColor='#1E3A5F';this.style.color='#94A3B8'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Edit Delay Reasons
+      </a>
     </div>
     <div id="history-content"></div>
   </div>
 </div>
 
 <script>
-const PW='Upstreammanagement!';
+const PW='PMODashboard!';
 const RC=${JSON.stringify(RC)};
 const historyData=${JSON.stringify(historyByProject)};
 const projectStatuses=${JSON.stringify(Object.fromEntries(projects.map(p=>[p.name,p.status])))};
