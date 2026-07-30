@@ -48,4 +48,4 @@ jobs:
           git stash pop
           git add index.html
           git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git push
+          git push origin main --force-with-lease
