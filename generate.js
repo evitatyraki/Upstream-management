@@ -368,32 +368,13 @@ function generateHTML(projects, historyData) {
         ${(function(){
           let out='';
           const pl=p.plannedLaunch;
-          if(pl){
-            const plPct=Math.min(100,(pl-rangeStart)/totalMs*100);
-            const dd=String(pl.getDate()).padStart(2,'0');
-            const mm=String(pl.getMonth()+1).padStart(2,'0');
-            out+='<div style="position:absolute;left:calc('+plPct+'% - 4px);top:calc(50% - 9px);transform:translateY(-50%);z-index:4">'
-              +'<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;border:2px solid #94A3B8" title="Planned: '+dd+'/'+mm+'"></div>'
-              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#0F172A;background:#94A3B8;padding:0 3px;border-radius:2px;white-space:nowrap;font-weight:700">P '+dd+'/'+mm+'</div>'
-              +'</div>';
-          }
-          const al=p.actualLaunch;
-          const sameDate = al && pl && al.toDateString()===pl.toDateString();
-          if(al && !sameDate){
-            const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
-            const add=String(al.getDate()).padStart(2,'0');
-            const amm=String(al.getMonth()+1).padStart(2,'0');
-            out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 5px);transform:translateY(-50%);z-index:4">'
-              +'<div style="width:8px;height:8px;border-radius:50%;background:'+col+';border:2px solid #0F172A" title="Actual: '+add+'/'+amm+'"></div>'
-              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#0F172A;background:'+col+';padding:0 3px;border-radius:2px;white-space:nowrap;font-weight:700">A '+add+'/'+amm+'</div>'
-              +'</div>';
-          }
+
           return out;
         })()}
         ${flagPct!==null?`
         <div style="position:absolute;left:${flagPct}%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
-          <div title="${p.delayReason||''}" style="background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;cursor:help;white-space:nowrap">+${delayCal}w</div>
-          <div style="font-size:8px;font-weight:600;color:#F59E0B;white-space:nowrap">${p.plannedLaunch?String(p.plannedLaunch.getDate()).padStart(2,'0')+'/'+(String(p.plannedLaunch.getMonth()+1).padStart(2,'0')):''}</div>
+          <div title="${p.delayReason||''}" style="background:#F59E0B;color:#000000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;cursor:help;white-space:nowrap;letter-spacing:0.3px">+${delayCal}w</div>
+          <div style="font-size:8px;font-weight:800;color:#000000;white-space:nowrap">${p.plannedLaunch?String(p.plannedLaunch.getDate()).padStart(2,'0')+'/'+(String(p.plannedLaunch.getMonth()+1).padStart(2,'0')):''}</div>
         </div>`:''}
         `:''}
       </div>
@@ -442,7 +423,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .filters{padding:10px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
 .filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
 .filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
-.gantt-wrap{padding:0 32px 32px;overflow-x:auto;scroll-behavior:smooth;position:relative}
+.gantt-wrap{padding:0 32px 32px 0;overflow-x:auto;scroll-behavior:smooth;position:relative}
 .gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
@@ -525,7 +506,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
     </div>
     <div class="gantt-wrap">
       <div class="gantt">
-        <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:340px;">
+        <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
           ${months.map(m=>`<div style="position:absolute;left:calc(${m.pct}% );font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;transform:none">${m.label}</div>`).join('')}
 
         </div>
