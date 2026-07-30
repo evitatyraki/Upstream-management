@@ -410,9 +410,9 @@ function generateHTML(projects, historyData) {
           return out;
         })()}
         ${flagPct!==null?`
-        <div style="position:absolute;left:${flagPct}%;top:3px;bottom:3px;z-index:3" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
-          <div style="width:2px;height:100%;background:#F59E0B"></div>
-          <div title="${p.delayReason||''}" style="position:absolute;top:-1px;left:3px;background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;cursor:help">+${delayCal}w</div>
+        <div style="position:absolute;left:${flagPct}%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
+          <div title="${p.delayReason||''}" style="background:#F59E0B;color:#0F172A;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;cursor:help;white-space:nowrap">+${delayCal}w</div>
+          <div style="font-size:8px;font-weight:600;color:#F59E0B;white-space:nowrap">${p.plannedLaunch?String(p.plannedLaunch.getDate()).padStart(2,'0')+'/'+(String(p.plannedLaunch.getMonth()+1).padStart(2,'0')):''}</div>
         </div>`:''}
         `:''}
       </div>
@@ -461,11 +461,11 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .filters{padding:10px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
 .filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
 .filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
-.gantt-wrap{padding:0 32px 32px;overflow-x:auto;scroll-behavior:smooth}
+.gantt-wrap{padding:0 32px 32px;overflow-x:auto;scroll-behavior:smooth;position:relative}
 .gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
-.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0}
+.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0;position:sticky;left:0;z-index:5;background:inherit}
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -580,7 +580,8 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 const PW='PMODashboard!';
 const RC=${JSON.stringify(RC)};
 const historyData=${JSON.stringify(historyByProject)};
-const projectStatuses=${JSON.stringify(Object.fromEntries(projects.map(p=>[p.name,p.status])))};
+const projectStatuses=${JSON.stringify(Object.fromEntries(projects.map(p=>[p.name,p.status])))}
+const projectTlc=${JSON.stringify(Object.fromEntries(projects.map(p=>[p.name,p.tlc||''])))};
 
 function checkPw(){
   if(document.getElementById('pw').value===PW){
@@ -613,9 +614,12 @@ function scrollToToday(){
   const gantt = document.querySelector('.gantt');
   if(!wrap||!gantt) return;
   const ganttW = gantt.offsetWidth;
+  // Scroll so current month start is at left-ish, today near center
   const todayPx = ${todayPct} / 100 * ganttW;
   const wrapW = wrap.offsetWidth;
-  wrap.scrollLeft = todayPx - wrapW/2;
+  // Center the current month: offset by half viewport minus left col width
+  const leftColW = 340;
+  wrap.scrollLeft = Math.max(0, todayPx - (wrapW - leftColW) / 2);
 }
 if(sessionStorage.getItem('pmo_auth')==='1') setTimeout(scrollToToday,100);
 
@@ -663,7 +667,7 @@ function renderHistory(){
       +'<div class="project-header">'
       +'<div class="ph-left">'
       +'<span class="region-badge" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+data.region+'</span>'
-      +'<span class="ph-name">'+name+'</span>'
+      +'<span class="ph-name">'+name+(projectTlc[name]?' ['+projectTlc[name]+']':'')+'</span>'
       +'</div>'
       +'<div style="display:flex;align-items:center;gap:12px">'
       +'<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:'+statusCol+'18;color:'+statusCol+';border:1px solid '+statusCol+'33">'+curStatus+'</span>'
