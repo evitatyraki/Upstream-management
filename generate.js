@@ -353,7 +353,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'}">
+      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -374,7 +374,7 @@ function generateHTML(projects, historyData) {
             const mm=String(pl.getMonth()+1).padStart(2,'0');
             out+='<div style="position:absolute;left:calc('+plPct+'% - 4px);top:calc(50% - 9px);transform:translateY(-50%);z-index:4">'
               +'<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;border:2px solid #94A3B8" title="Planned: '+dd+'/'+mm+'"></div>'
-              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#94A3B8;white-space:nowrap;font-weight:600">P '+dd+'/'+mm+'</div>'
+              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#0F172A;background:#94A3B8;padding:0 3px;border-radius:2px;white-space:nowrap;font-weight:700">P '+dd+'/'+mm+'</div>'
               +'</div>';
           }
           const al=p.actualLaunch;
@@ -385,7 +385,7 @@ function generateHTML(projects, historyData) {
             const amm=String(al.getMonth()+1).padStart(2,'0');
             out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 5px);transform:translateY(-50%);z-index:4">'
               +'<div style="width:8px;height:8px;border-radius:50%;background:'+col+';border:2px solid #0F172A" title="Actual: '+add+'/'+amm+'"></div>'
-              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:'+col+';white-space:nowrap;font-weight:600">A '+add+'/'+amm+'</div>'
+              +'<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;color:#0F172A;background:'+col+';padding:0 3px;border-radius:2px;white-space:nowrap;font-weight:700">A '+add+'/'+amm+'</div>'
               +'</div>';
           }
           return out;
@@ -446,7 +446,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
-.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0;position:sticky;left:0;z-index:5}
+.row-left{width:380px;min-width:380px;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:5;box-shadow:4px 0 8px rgba(0,0,0,0.4)}
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
