@@ -265,25 +265,6 @@ async function main() {
     newCurrentRows.push([p.name, p.region, p.country, p.status, currentReasons[p.name]||'']);
   });
 
-  // Detect reason changes (for history)
-  // We'll compare with what was previously in the sheet
-  // If a project existed before with a different reason → log to history
-  allProjects.forEach(p => {
-    const prev = currentReasons[p.name];
-    // Only log if project had a reason and it changed (manual input changed)
-    // This run: we don't change reasons, we just read them
-    // History is written when user manually changes a reason in the sheet
-    // So we just ensure history has at least one entry per project that has a reason
-    if (prev && prev.trim()) {
-      const alreadyLogged = historyRows.some(h =>
-        h['Project Name']===p.name && h['New Reason']===prev
-      );
-      if (!alreadyLogged) {
-        newHistoryRows.push([dateStr, p.name, p.region, p.country, '', prev]);
-      }
-    }
-  });
-
   // 5. Write updated Current Reasons
   try {
     await updateSheet(SHEET_IDS.REASONS, token, 'A1', newCurrentRows);
@@ -372,7 +353,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left">
+      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'}">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -465,7 +446,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
-.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0;position:sticky;left:0;z-index:5;background:inherit}
+.row-left{width:340px;min-width:340px;display:flex;align-items:center;gap:6px;padding:0 12px 0 0;position:sticky;left:0;z-index:5}
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -545,7 +526,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
     <div class="gantt-wrap">
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:340px;">
-          ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px">${m.label}</div>`).join('')}
+          ${months.map(m=>`<div style="position:absolute;left:calc(${m.pct}% );font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;transform:none">${m.label}</div>`).join('')}
 
         </div>
         <div id="rows">${rowsHTML}</div>
