@@ -369,12 +369,24 @@ function generateHTML(projects, historyData) {
           let out='';
           const pl=p.plannedLaunch;
 
+          // Actual launch dot + label
+          const al=p.actualLaunch;
+          const sameDate = al && pl && al.toDateString()===pl.toDateString();
+          if(al && !sameDate){
+            const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
+            const add=String(al.getDate()).padStart(2,'0');
+            const amm=String(al.getMonth()+1).padStart(2,'0');
+            out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center">'
+              +'<div style="width:7px;height:7px;border-radius:50%;background:'+col+';border:2px solid #0F172A"></div>'
+              +'<div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A '+add+'/'+amm+'</div>'
+              +'</div>';
+          }
           return out;
         })()}
         ${flagPct!==null?`
         <div style="position:absolute;left:${flagPct}%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="${p.delayReason||('Planned: '+(p.plannedLaunch?.toLocaleDateString('en-GB')||''))}">
           <div title="${p.delayReason||''}" style="background:#F59E0B;color:#000000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;cursor:help;white-space:nowrap;letter-spacing:0.3px">+${delayCal}w</div>
-          <div style="font-size:8px;font-weight:800;color:#000000;white-space:nowrap">${p.plannedLaunch?String(p.plannedLaunch.getDate()).padStart(2,'0')+'/'+(String(p.plannedLaunch.getMonth()+1).padStart(2,'0')):''}</div>
+          <div style="font-size:8px;font-weight:700;color:#FFFFFF;white-space:nowrap">${p.plannedLaunch?String(p.plannedLaunch.getDate()).padStart(2,'0')+'/'+(String(p.plannedLaunch.getMonth()+1).padStart(2,'0')):''}</div>
         </div>`:''}
         `:''}
       </div>
