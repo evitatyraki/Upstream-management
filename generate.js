@@ -371,8 +371,7 @@ function generateHTML(projects, historyData) {
 
           // Actual launch dot + label
           const al=p.actualLaunch;
-          const sameDate = al && pl && al.toDateString()===pl.toDateString();
-          if(al && !sameDate){
+          if(al){
             const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
             const add=String(al.getDate()).padStart(2,'0');
             const amm=String(al.getMonth()+1).padStart(2,'0');
@@ -443,7 +442,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row-chart{flex:1;position:relative;height:100%}
+.row-chart{flex:1;position:relative;height:100%;overflow:hidden}
 /* History tab */
 #history-tab{display:none;padding:24px 32px}
 .hist-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
@@ -519,7 +518,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
     <div class="gantt-wrap">
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
-          ${months.map(m=>`<div style="position:absolute;left:calc(${m.pct}% );font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;transform:none">${m.label}</div>`).join('')}
+          ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">${m.label}</div>`).join('')}
 
         </div>
         <div id="rows">${rowsHTML}</div>
