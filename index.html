@@ -81,7 +81,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="display:flex;gap:8px">
         <div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#38BDF818;color:#38BDF8;border:1px solid #38BDF833"><span style="width:6px;height:6px;border-radius:50%;background:#38BDF8;display:inline-block"></span>LATAM</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#22C55E18;color:#22C55E;border:1px solid #22C55E33"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span>AFRICA</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#A78BFA18;color:#A78BFA;border:1px solid #A78BFA33"><span style="width:6px;height:6px;border-radius:50%;background:#A78BFA;display:inline-block"></span>EMENA</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#F59E0B18;color:#F59E0B;border:1px solid #F59E0B33"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block"></span>ASIA</div>
       </div>
-      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">Updated: 21 Aug 2026, 11:55</div>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">Updated: 21 Aug 2026, 12:01</div>
     </div>
   </header>
 
@@ -102,32 +102,33 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       </div>
     </div>
     <div class="filters">
-      <button class="filter-btn active" onclick="filter('all',this)">All</button>
-      <button class="filter-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
-      <button class="filter-btn" onclick="filter('On Track',this)">✅ On Track</button>
-      <button class="filter-btn" onclick="filter('Completed',this)">🏁 Completed</button>
-      <button class="filter-btn" onclick="filterRegion('LATAM',this)" style="color:#38BDF8">LATAM</button><button class="filter-btn" onclick="filterRegion('AFRICA',this)" style="color:#22C55E">AFRICA</button><button class="filter-btn" onclick="filterRegion('EMENA',this)" style="color:#A78BFA">EMENA</button><button class="filter-btn" onclick="filterRegion('ASIA',this)" style="color:#F59E0B">ASIA</button>
+      <button class="filter-btn all-btn active" onclick="resetFilters()">All</button>
+      <button class="filter-btn status-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
+      <button class="filter-btn status-btn" onclick="filter('On Track',this)">✅ On Track</button>
+      <button class="filter-btn status-btn" onclick="filter('Completed',this)">🏁 Completed</button>
+      <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+      <button class="filter-btn region-btn" onclick="filterRegion('LATAM',this)" style="color:#38BDF8">LATAM</button><button class="filter-btn region-btn" onclick="filterRegion('AFRICA',this)" style="color:#22C55E">AFRICA</button><button class="filter-btn region-btn" onclick="filterRegion('EMENA',this)" style="color:#A78BFA">EMENA</button><button class="filter-btn region-btn" onclick="filterRegion('ASIA',this)" style="color:#F59E0B">ASIA</button>
     </div>
     <div class="gantt-wrap">
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
-          <div style="position:absolute;left:0%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jan 2026</div><div style="position:absolute;left:8.516483516483516%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Feb 2026</div><div style="position:absolute;left:16.208791208791208%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Mar 2026</div><div style="position:absolute;left:24.725274725274726%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Apr 2026</div><div style="position:absolute;left:32.967032967032964%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">May 2026</div><div style="position:absolute;left:41.48351648351649%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jun 2026</div><div style="position:absolute;left:49.72527472527473%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jul 2026</div><div style="position:absolute;left:58.24175824175825%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Aug 2026</div><div style="position:absolute;left:66.75824175824175%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Sep 2026</div><div style="position:absolute;left:75%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Oct 2026</div><div style="position:absolute;left:83.51648351648352%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Nov 2026</div><div style="position:absolute;left:91.75824175824175%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Dec 2026</div>
+          <div style="position:absolute;left:3.8461538461538463%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jan 2026</div><div style="position:absolute;left:12.362637362637363%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Feb 2026</div><div style="position:absolute;left:20.054945054945055%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Mar 2026</div><div style="position:absolute;left:28.57142857142857%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Apr 2026</div><div style="position:absolute;left:36.81318681318682%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">May 2026</div><div style="position:absolute;left:45.32967032967033%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jun 2026</div><div style="position:absolute;left:53.57142857142857%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Jul 2026</div><div style="position:absolute;left:62.08791208791209%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Aug 2026</div><div style="position:absolute;left:70.6043956043956%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Sep 2026</div><div style="position:absolute;left:78.84615384615384%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Oct 2026</div><div style="position:absolute;left:87.36263736263736%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Nov 2026</div><div style="position:absolute;left:95.6043956043956%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">Dec 2026</div>
 
         </div>
         <div id="rows">
     <div class="row even" data-region="LATAM" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Carreira Up 2026">BR TIM Carreira Up 2026 [TBY]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:40.10989010989011%;width:23.762824506512004%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:40.10989010989011%;width:23.76403939318783%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:0.9624502187627186%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:0.9612353320868934%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(64.83516483516483% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 25/08</div></div>
         
         <div style="position:absolute;left:59.065934065934066%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 04/08/2026">
@@ -139,18 +140,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="LATAM" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Level Up 2026">BR TIM Level Up 2026 [TBU]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:40.10989010989011%;width:23.762824506512004%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:40.10989010989011%;width:23.76403939318783%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:0.9624502187627186%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:0.9612353320868934%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(64.83516483516483% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 25/08</div></div>
         
         <div style="position:absolute;left:59.065934065934066%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 04/08/2026">
@@ -162,18 +163,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="LATAM" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">SV</span>
         <span class="pname" title="SV DIGICEL Gamedom 2026">SV DIGICEL Gamedom 2026 [SVD]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:48.07692307692308%;width:15.795791539479033%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:48.07692307692308%;width:15.797006426154859%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:6.731680987993492%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(70.6043956043956% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:6.730466101317667%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(70.6043956043956% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(70.6043956043956% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 15/09</div></div>
         
         <div style="position:absolute;left:66.75824175824175%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 01/09/2026">
@@ -185,18 +186,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG MTN Grow Advertising 2025">NG MTN Grow Advertising 2025 [NMQ]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:16.758241758241756%;width:47.114472858160354%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:16.758241758241756%;width:47.11568774483618%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:3.434977691290193%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:3.433762804614368%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(67.3076923076923% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 03/09</div></div>
         
         <div style="position:absolute;left:36.81318681318682%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 15/05/2026">
@@ -208,18 +209,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG GLO Uwisely 2025">NG GLO Uwisely 2025 [NGU]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:3.571428571428571%;width:60.301286044973544%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:3.571428571428571%;width:60.30250093164937%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:18.40659340659341%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending integration details from the operator.">
@@ -231,18 +232,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH MTN Web 2025">GH MTN Web 2025 [GMW]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:0.27472527472527475%;width:63.597989341676836%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:0.27472527472527475%;width:63.59920422835266%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:3.434977691290193%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:3.433762804614368%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(67.3076923076923% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 03/09</div></div>
         
         <div style="position:absolute;left:9.615384615384617%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 05/02/2026">
@@ -254,18 +255,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">SN</span>
         <span class="pname" title="SN ORANGE BattleUp 2026">SN ORANGE BattleUp 2026 [SOB]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:32.417582417582416%;width:31.455132198819697%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:32.417582417582416%;width:31.456347085495523%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:4.533878790191288%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(68.4065934065934% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:4.532663903515463%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(68.4065934065934% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(68.4065934065934% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 07/09</div></div>
         
         <div style="position:absolute;left:57.692307692307686%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Issue with HE redirection - pending MNO feedback">
@@ -277,18 +278,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">SN</span>
         <span class="pname" title="SN ORANGE Fantasy Sports 2026">SN ORANGE Fantasy Sports 2026 [SOF]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:32.417582417582416%;width:31.455132198819697%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:32.417582417582416%;width:31.456347085495523%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:5.358054614367113%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(69.23076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:5.356839727691288%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(69.23076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(69.23076923076923% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 10/09</div></div>
         
         <div style="position:absolute;left:49.175824175824175%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Issue with HE redirection - pending MNO feedback">
@@ -300,18 +301,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">SN</span>
         <span class="pname" title="SN ORANGE Uwisely 2026">SN ORANGE Uwisely 2026 [SOW]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:32.417582417582416%;width:31.455132198819697%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:32.417582417582416%;width:31.456347085495523%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:3.434977691290193%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:3.433762804614368%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(67.3076923076923% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(67.3076923076923% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 03/09</div></div>
         
         <div style="position:absolute;left:53.84615384615385%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Issue with HE redirection - pending MNO feedback">
@@ -323,18 +324,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG MTN MyFinance 2026">NG MTN MyFinance 2026 [NMS]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:9.340659340659341%;width:54.53205527574277%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:9.340659340659341%;width:54.533270162418596%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:0.6877249440374484%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.56043956043956% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:0.6865100573616232%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.56043956043956% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(64.56043956043956% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 24/08</div></div>
         
         <div style="position:absolute;left:26.373626373626376%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 07/04/2026">
@@ -346,18 +347,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG MTN MyGrowth 2026">NG MTN MyGrowth 2026 [NMJ]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:9.340659340659341%;width:54.53205527574277%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:9.340659340659341%;width:54.533270162418596%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:59.34065934065934%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 05/08/2026">
@@ -369,18 +370,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">AO</span>
         <span class="pname" title="AO AFRICELL Promo Saga 2026">AO AFRICELL Promo Saga 2026 [AAP]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:20.32967032967033%;width:43.543044286731785%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:20.32967032967033%;width:43.54425917340761%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:38.18681318681318%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="MNO UAT is in progress.">
@@ -392,18 +393,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">AO</span>
         <span class="pname" title="AO AFRICELL BattleUp 2026">AO AFRICELL BattleUp 2026 [AAB]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:20.32967032967033%;width:43.543044286731785%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:20.32967032967033%;width:43.54425917340761%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.8855271418396384%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.75824175824175% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.884312255163813%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.75824175824175% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.75824175824175% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 01/09</div></div>
         
         <div style="position:absolute;left:38.18681318681318%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="MNO UAT is in progress.">
@@ -415,18 +416,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZM</span>
         <span class="pname" title="ZM MTN Tourney Rush 2026">ZM MTN Tourney Rush 2026 [ZBT]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:38.18681318681318%;width:25.68590142958893%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:38.18681318681318%;width:25.687116316264756%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:55.769230769230774%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 23/07/2026">
@@ -438,18 +439,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZM</span>
         <span class="pname" title="ZM MTN BattleUp 2026">ZM MTN BattleUp 2026 [ZBB]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:38.18681318681318%;width:25.68590142958893%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:38.18681318681318%;width:25.687116316264756%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:55.769230769230774%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 23/07/2026">
@@ -461,18 +462,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG AIRTEL Ufitini 2026">NG AIRTEL Ufitini 2026 [NAT]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:25%;width:38.872714616402114%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:25%;width:38.87392950307794%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:46.15384615384615%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending MNO confirmation of the fallback billing fix and completion of UAT.">
@@ -484,18 +485,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG AIRTEL Swipe it 2026">NG AIRTEL Swipe it 2026 [NAE]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:25%;width:38.872714616402114%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:25%;width:38.87392950307794%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:46.15384615384615%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending MNO confirmation of the fallback billing fix and completion of UAT.">
@@ -507,18 +508,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG AIRTEL Uplingo 2026">NG AIRTEL Uplingo 2026 [NAO]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:25%;width:38.872714616402114%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:25%;width:38.87392950307794%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:46.15384615384615%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending MNO confirmation of the fallback billing fix and completion of UAT.">
@@ -530,18 +531,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG MTN AIPix 2026">NG MTN AIPix 2026 [NMX]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:38.46153846153847%;width:25.411176154863647%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:38.46153846153847%;width:25.412391041539472%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:57.692307692307686%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 30/07/2026">
@@ -553,18 +554,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG AIRTEL Travel Saga 2026">NG AIRTEL Travel Saga 2026 [NAR]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:37.637362637362635%;width:26.23535197903948%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:37.637362637362635%;width:26.236566865715304%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.6108018671143682%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.609586980438543%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
         
         <div style="position:absolute;left:55.494505494505496%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending MNO confirmation of the fallback billing fix and completion of UAT.">
@@ -576,18 +577,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZA</span>
         <span class="pname" title="ZA CELLC Sat Push 2026">ZA CELLC Sat Push 2026 [ZCT]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:44.230769230769226%;width:19.641945385632887%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:44.230769230769226%;width:19.643160272308712%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:2.8855271418396384%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.75824175824175% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:2.884312255163813%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.75824175824175% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(66.75824175824175% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 01/09</div></div>
         
         <div style="position:absolute;left:57.14285714285714%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 28/07/2026">
@@ -599,18 +600,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH TELECEL Uwisely 2026">GH TELECEL Uwisely 2026 [GTU]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:51.64835164835166%;width:12.224362968050457%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:51.64835164835166%;width:12.225577854726282%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:11.127285383597886%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:11.126070496922061%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(75% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 01/10</div></div>
         
         <div style="position:absolute;left:71.15384615384616%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending integration details from the operator and SB approval">
@@ -622,18 +623,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH TELECEL PulseChat 2026">GH TELECEL PulseChat 2026 [GTP]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:51.64835164835166%;width:12.224362968050457%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:51.64835164835166%;width:12.225577854726282%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:11.127285383597886%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:11.126070496922061%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(75% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 01/10</div></div>
         
         <div style="position:absolute;left:71.15384615384616%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending integration details from the operator and SB approval">
@@ -645,18 +646,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH TELECEL Fantasy Games 2026">GH TELECEL Fantasy Games 2026 [GTF]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:51.64835164835166%;width:12.224362968050457%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:51.64835164835166%;width:12.225577854726282%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:11.127285383597886%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:11.126070496922061%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(75% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(75% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 01/10</div></div>
         
         <div style="position:absolute;left:71.15384615384616%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending integration details from the operator and SB approval">
@@ -668,7 +669,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="EMENA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">SA</span>
         <span class="pname" title="SA MOBILY Language Learning 2025">SA MOBILY Language Learning 2025 [SML]</span>
@@ -691,18 +692,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="EMENA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">IQ</span>
         <span class="pname" title="IQ KOREK Language Learning 2025">IQ KOREK Language Learning 2025 [IKL]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:13.736263736263737%;width:50.136450880138376%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:13.736263736263737%;width:50.1376657668142%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:0.9624502187627186%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:0.9612353320868934%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(64.83516483516483% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(64.83516483516483% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 25/08</div></div>
         
         <div style="position:absolute;left:28.021978021978022%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Pending Mobimind fixings">
@@ -714,18 +715,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="EMENA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">PT</span>
         <span class="pname" title="PT MEO Play Stories 2026">PT MEO Play Stories 2026 [PMP]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:9.340659340659341%;width:54.53205527574277%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:9.340659340659341%;width:54.533270162418596%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:6.456955713268222%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(70.32967032967034% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:6.455740826592397%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(70.32967032967034% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(70.32967032967034% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 14/09</div></div>
         
         <div style="position:absolute;left:59.34065934065934%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 05/08/2026">
@@ -737,18 +738,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="EMENA" data-status="Delayed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">FR</span>
         <span class="pname" title="FR DROM Cross-Operator Gamedom 2026">FR DROM Cross-Operator Gamedom 2026 [DFE]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:40.38461538461539%;width:23.488099231786727%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:40.38461538461539%;width:23.489314118462552%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:10.303109559422062%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(74.17582417582418% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:10.301894672746236%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(74.17582417582418% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(74.17582417582418% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 28/09</div></div>
         
         <div style="position:absolute;left:60.71428571428571%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Product change due to Mobisite constraints">
@@ -760,18 +761,18 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row even" data-region="ASIA" data-status="Delayed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">TH</span>
         <span class="pname" title="TH AIS Swipe It 2026">TH AIS Swipe It 2026 [TAS]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:49.72527472527473%;width:14.147439891127384%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:49.72527472527473%;width:14.148654777803209%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
-        <div style="position:absolute;left:63.872714616402114%;width:1.237175493488003%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(65.10989010989012% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:63.87392950307794%;width:1.2359606068121778%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(65.10989010989012% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
         <div style="position:absolute;left:calc(65.10989010989012% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 26/08</div></div>
         
         <div style="position:absolute;left:61.26373626373627%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Portal development has been delayed due to resource constraints, impacting the planned launch date.">
@@ -783,17 +784,17 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="On Track">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZA</span>
         <span class="pname" title="ZA VODACOM Tourney Rush 2026">ZA VODACOM Tourney Rush 2026 [VZT]</span>
       </div>
       <div class="row-chart">
         
-        <div style="position:absolute;left:39.83516483516483%;width:24.03754978123728%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+        <div style="position:absolute;left:39.83516483516483%;width:24.038764667913107%;background:#22C55E22;border:1px solid #22C55E44;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
           <div style="width:100%;height:100%;background:#22C55E;border-radius:4px"></div>
         </div>
-        <div style="position:absolute;left:calc(63.872714616402114% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:calc(63.87392950307794% - 5px);width:10px;height:10px;border-radius:50%;background:#22C55E;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
         
         
         
@@ -802,7 +803,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #22C55E44;background:#22C55E11;color:#22C55E;white-space:nowrap;margin-right:8px">On Track</div>
     </div>
     <div class="row even" data-region="LATAM" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Port Out 2025">BR TIM Port Out 2025 [TBP]</span>
@@ -821,7 +822,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="LATAM" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Gamedom 2025">BR TIM Gamedom 2025 [TBG]</span>
@@ -840,7 +841,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="LATAM" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Conexão Consciente 2025">BR TIM Conexão Consciente 2025 [TCC]</span>
@@ -859,7 +860,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="LATAM" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#38BDF822;color:#38BDF8;border:1px solid #38BDF844">LATAM</span>
         <span class="ctry">BR</span>
         <span class="pname" title="BR TIM Dentro da História 2025">BR TIM Dentro da História 2025 [TBH]</span>
@@ -878,7 +879,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG GLO Travel Saga 2025">NG GLO Travel Saga 2025 [NGT]</span>
@@ -897,7 +898,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">NG</span>
         <span class="pname" title="NG AIRTEL Uwisely 2025">NG AIRTEL Uwisely 2025 [NAW]</span>
@@ -916,7 +917,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH MTN BattleUp 2025">GH MTN BattleUp 2025 [GMB]</span>
@@ -935,7 +936,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">GH</span>
         <span class="pname" title="GH MTN Tourney Rush Games 2025">GH MTN Tourney Rush Games 2025 [GMG]</span>
@@ -954,7 +955,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZA</span>
         <span class="pname" title="ZA VODACOM Openly 2025">ZA VODACOM Openly 2025 [ZVJ]</span>
@@ -973,7 +974,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="AFRICA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
         <span class="ctry">ZA</span>
         <span class="pname" title="ZA VODACOM The Kulture Dj Tiras World 2026">ZA VODACOM The Kulture Dj Tiras World 20… [VZD]</span>
@@ -992,7 +993,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="EMENA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">KW</span>
         <span class="pname" title="KW ZAIN Daily Challenge 2025">KW ZAIN Daily Challenge 2025 [KZD]</span>
@@ -1011,7 +1012,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="EMENA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">DZ</span>
         <span class="pname" title="DZ OOREDOO Uwisely 2025">DZ OOREDOO Uwisely 2025 [DOU]</span>
@@ -1030,7 +1031,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="EMENA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#A78BFA22;color:#A78BFA;border:1px solid #A78BFA44">EMENA</span>
         <span class="ctry">DZ</span>
         <span class="pname" title="DZ OOREDOO AIPix 2025">DZ OOREDOO AIPix 2025 [DOA]</span>
@@ -1049,7 +1050,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">BD</span>
         <span class="pname" title="BD BANGLALINK Gamedom 2025">BD BANGLALINK Gamedom 2025 [BBG]</span>
@@ -1068,7 +1069,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">MY</span>
         <span class="pname" title="MY UMOBILE Uwisely 2025">MY UMOBILE Uwisely 2025 [MUU]</span>
@@ -1087,7 +1088,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">ID</span>
         <span class="pname" title="ID TELKOMSEL Gamedom 2025">ID TELKOMSEL Gamedom 2025 [ITM]</span>
@@ -1106,7 +1107,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">AF</span>
         <span class="pname" title="AF ATOMA Uwisely 2025">AF ATOMA Uwisely 2025 [AFU]</span>
@@ -1125,7 +1126,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">TH</span>
         <span class="pname" title="TH AIS Gamedom 2026">TH AIS Gamedom 2026 [ATG]</span>
@@ -1144,7 +1145,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row even" data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0D1F35;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0D1F35">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">TH</span>
         <span class="pname" title="TH AIS Marvel 2026">TH AIS Marvel 2026 [ATM]</span>
@@ -1163,7 +1164,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #38BDF844;background:#38BDF811;color:#38BDF8;white-space:nowrap;margin-right:8px">Completed</div>
     </div>
     <div class="row " data-region="ASIA" data-status="Completed">
-      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px">
+      <div class="row-left" style="background:#0F172A;width:380px;min-width:380px;box-shadow:6px 0 12px 2px #0F172A">
         <span class="tag" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B44">ASIA</span>
         <span class="ctry">TH</span>
         <span class="pname" title="TH TRUE Gameloft 2026">TH TRUE Gameloft 2026 [TRG]</span>
@@ -1247,7 +1248,7 @@ function scrollToToday(){
   if(!wrap||!gantt) return;
   const ganttW = gantt.offsetWidth;
   // Scroll so current month start is at left-ish, today near center
-  const todayPx = 63.872714616402114 / 100 * ganttW;
+  const todayPx = 63.87392950307794 / 100 * ganttW;
   const wrapW = wrap.offsetWidth;
   // Center the current month: offset by half viewport minus left col width
   const leftColW = 340;
@@ -1255,15 +1256,42 @@ function scrollToToday(){
 }
 if(sessionStorage.getItem('pmo_auth')==='1') setTimeout(scrollToToday,100);
 
-function filter(s,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.row').forEach(r=>{r.style.display=(s==='all'||r.dataset.status===s)?'flex':'none';});
+// Combined filter state
+let activeStatus='all', activeRegion='all';
+
+function applyFilters(){
+  document.querySelectorAll('.row').forEach(r=>{
+    const statusOk = activeStatus==='all' || r.dataset.status===activeStatus;
+    const regionOk = activeRegion==='all' || r.dataset.region===activeRegion;
+    r.style.display = (statusOk && regionOk) ? 'flex' : 'none';
+  });
 }
+
+function filter(s,btn){
+  activeStatus = s==='all' && activeStatus===s ? 'all' : s;
+  // Toggle off if same
+  if(activeStatus===s && btn.classList.contains('active')){activeStatus='all';}
+  else activeStatus=s;
+  document.querySelectorAll('.filter-btn.status-btn').forEach(b=>b.classList.remove('active'));
+  if(activeStatus!=='all') btn.classList.add('active');
+  applyFilters();
+}
+
 function filterRegion(r,btn){
+  if(activeRegion===r){activeRegion='all'; btn.classList.remove('active');}
+  else{
+    activeRegion=r;
+    document.querySelectorAll('.filter-btn.region-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  applyFilters();
+}
+
+function resetFilters(){
+  activeStatus='all'; activeRegion='all';
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.row').forEach(row=>{row.style.display=row.dataset.region===r?'flex':'none';});
+  document.querySelector('.filter-btn.all-btn').classList.add('active');
+  applyFilters();
 }
 
 function renderHistory(){
@@ -1283,7 +1311,8 @@ function renderHistory(){
   }
 
   document.getElementById('history-content').innerHTML=projects.map(([name,data])=>{
-    const entries=[...data.entries].reverse();
+    // Newest first
+    const entries=[...data.entries].sort((a,b)=>new Date(b.date)-new Date(a.date)||0);
     const col=rc[data.region]||'#64748B';
     const curStatus=projectStatuses[name]||'';
     const statusCol=curStatus==='Completed'?'#38BDF8':curStatus==='Delayed'?'#EF4444':'#22C55E';
