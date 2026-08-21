@@ -318,15 +318,13 @@ function generateHTML(projects, historyData) {
   ['LATAM','AFRICA','EMENA','ASIA'].forEach(r=>regionCounts[r]=projects.filter(p=>p.region===r).length);
 
   // Month markers
-  // Month labels: divider at 1st, label centered on 15th
+  // Month labels: divider + centered label both at 1st of month
   const months=[];
   for(let m=0; m<12; m++){
     const d1=new Date(year,m,1);
-    const d15=new Date(year,m,15);
     if(d1<rangeStart||d1>rangeEnd) continue;
-    const pct1=(d1-rangeStart)/totalMs*100;   // divider position
-    const pct15=(d15-rangeStart)/totalMs*100; // label center position
-    months.push({pct1,pct15,label:d1.toLocaleString('en',{month:'short',year:'numeric'})});
+    const pct1=(d1-rangeStart)/totalMs*100;
+    months.push({pct1,label:d1.toLocaleString('en',{month:'short',year:'numeric'})});
   }
   const todayPct=Math.min(100,Math.max(0,(now-rangeStart)/totalMs*100));
 
@@ -352,7 +350,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px;box-shadow:6px 0 12px 2px ${i%2===0?'#0D1F35':'#0F172A'}">
+      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px;border-right:16px solid ${i%2===0?'#0D1F35':'#0F172A'};margin-right:-16px">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -521,8 +519,8 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
           ${months.map(m=>`
-        <div style="position:absolute;left:${m.pct1}%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.5"></div>
-        <div style="position:absolute;left:${m.pct15}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">${m.label}</div>
+        <div style="position:absolute;left:${m.pct1}%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:${m.pct1}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">${m.label}</div>
       `).join('')}
 
         </div>
