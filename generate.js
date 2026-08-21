@@ -318,14 +318,15 @@ function generateHTML(projects, historyData) {
   ['LATAM','AFRICA','EMENA','ASIA'].forEach(r=>regionCounts[r]=projects.filter(p=>p.region===r).length);
 
   // Month markers
-  // Month labels: centered on 15th so mid-month dates appear correctly
+  // Month labels: divider at 1st, label centered on 15th
   const months=[];
   for(let m=0; m<12; m++){
-    const d15=new Date(year,m,15);
     const d1=new Date(year,m,1);
+    const d15=new Date(year,m,15);
     if(d1<rangeStart||d1>rangeEnd) continue;
-    const pct=(d15-rangeStart)/totalMs*100;
-    if(pct>=0&&pct<=100) months.push({pct,label:d1.toLocaleString('en',{month:'short',year:'numeric'})});
+    const pct1=(d1-rangeStart)/totalMs*100;   // divider position
+    const pct15=(d15-rangeStart)/totalMs*100; // label center position
+    months.push({pct1,pct15,label:d1.toLocaleString('en',{month:'short',year:'numeric'})});
   }
   const todayPct=Math.min(100,Math.max(0,(now-rangeStart)/totalMs*100));
 
@@ -367,16 +368,18 @@ function generateHTML(projects, historyData) {
           let out='';
           const pl=p.plannedLaunch;
 
-          // Actual launch dot + label
+          // Actual launch dot + label — only show if within visible range
           const al=p.actualLaunch;
           if(al){
             const alPct=Math.min(100,(al-rangeStart)/totalMs*100);
-            const add=String(al.getDate()).padStart(2,'0');
-            const amm=String(al.getMonth()+1).padStart(2,'0');
-            out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center">'
-              +'<div style="width:7px;height:7px;border-radius:50%;background:'+col+';border:2px solid #0F172A"></div>'
-              +'<div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A '+add+'/'+amm+'</div>'
-              +'</div>';
+            if(alPct > 1 && alPct <= 100){
+              const add=String(al.getDate()).padStart(2,'0');
+              const amm=String(al.getMonth()+1).padStart(2,'0');
+              out+='<div style="position:absolute;left:calc('+alPct+'% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center">'
+                +'<div style="width:7px;height:7px;border-radius:50%;background:'+col+';border:2px solid #0F172A"></div>'
+                +'<div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A '+add+'/'+amm+'</div>'
+                +'</div>';
+            }
           }
           return out;
         })()}
@@ -517,7 +520,10 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
     <div class="gantt-wrap">
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
-          ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">${m.label}</div>`).join('')}
+          ${months.map(m=>`
+        <div style="position:absolute;left:${m.pct1}%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.5"></div>
+        <div style="position:absolute;left:${m.pct15}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">${m.label}</div>
+      `).join('')}
 
         </div>
         <div id="rows">${rowsHTML}</div>
