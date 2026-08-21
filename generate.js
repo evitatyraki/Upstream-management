@@ -239,16 +239,13 @@ async function main() {
   const today = now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
 
   allProjects.forEach(p => {
-    const currentReason = currentReasons[p.name] || '';
+    const currentReason = (currentReasons[p.name] || '').trim();
     p.delayReason = currentReason;
-    // If reason changed since last history entry → log old reason
-    const lastHistorical = latestInHistory[p.name] || '';
-    if (currentReason && lastHistorical && currentReason !== lastHistorical) {
+    const lastHistorical = (latestInHistory[p.name] || '').trim();
+    // Only log if reason has actually changed (not empty, not same as last entry)
+    if (currentReason && currentReason !== lastHistorical) {
       newHistoryRows.push([today, p.name, p.region, p.country, lastHistorical, currentReason]);
-      console.log(`History: ${p.name} changed reason`);
-    } else if (currentReason && !lastHistorical) {
-      // First time this project gets a reason → log it
-      newHistoryRows.push([today, p.name, p.region, p.country, '', currentReason]);
+      console.log(`History change: ${p.name} | "${lastHistorical}" → "${currentReason}"`);
     }
   });
 
@@ -321,13 +318,14 @@ function generateHTML(projects, historyData) {
   ['LATAM','AFRICA','EMENA','ASIA'].forEach(r=>regionCounts[r]=projects.filter(p=>p.region===r).length);
 
   // Month markers
-  // Month labels: position from 1st of each month for correct alignment
+  // Month labels: centered on 15th so mid-month dates appear correctly
   const months=[];
   for(let m=0; m<12; m++){
-    const d=new Date(year,m,1);
-    if(d<rangeStart||d>rangeEnd) continue;
-    const pct=(d-rangeStart)/totalMs*100;
-    if(pct>=0&&pct<=100) months.push({pct,label:d.toLocaleString('en',{month:'short',year:'numeric'})});
+    const d15=new Date(year,m,15);
+    const d1=new Date(year,m,1);
+    if(d1<rangeStart||d1>rangeEnd) continue;
+    const pct=(d15-rangeStart)/totalMs*100;
+    if(pct>=0&&pct<=100) months.push({pct,label:d1.toLocaleString('en',{month:'short',year:'numeric'})});
   }
   const todayPct=Math.min(100,Math.max(0,(now-rangeStart)/totalMs*100));
 
@@ -353,7 +351,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px">
+      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px;box-shadow:6px 0 12px 2px ${i%2===0?'#0D1F35':'#0F172A'}">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -509,16 +507,17 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
       </div>
     </div>
     <div class="filters">
-      <button class="filter-btn active" onclick="filter('all',this)">All</button>
-      <button class="filter-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
-      <button class="filter-btn" onclick="filter('On Track',this)">✅ On Track</button>
-      <button class="filter-btn" onclick="filter('Completed',this)">🏁 Completed</button>
-      ${['LATAM','AFRICA','EMENA','ASIA'].map(r=>`<button class="filter-btn" onclick="filterRegion('${r}',this)" style="color:${RC[r]}">${r}</button>`).join('')}
+      <button class="filter-btn all-btn active" onclick="resetFilters()">All</button>
+      <button class="filter-btn status-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
+      <button class="filter-btn status-btn" onclick="filter('On Track',this)">✅ On Track</button>
+      <button class="filter-btn status-btn" onclick="filter('Completed',this)">🏁 Completed</button>
+      <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+      ${['LATAM','AFRICA','EMENA','ASIA'].map(r=>`<button class="filter-btn region-btn" onclick="filterRegion('${r}',this)" style="color:${RC[r]}">${r}</button>`).join('')}
     </div>
     <div class="gantt-wrap">
       <div class="gantt">
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
-          ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">${m.label}</div>`).join('')}
+          ${months.map(m=>`<div style="position:absolute;left:${m.pct}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:10px;white-space:nowrap">${m.label}</div>`).join('')}
 
         </div>
         <div id="rows">${rowsHTML}</div>
@@ -596,15 +595,42 @@ function scrollToToday(){
 }
 if(sessionStorage.getItem('pmo_auth')==='1') setTimeout(scrollToToday,100);
 
-function filter(s,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.row').forEach(r=>{r.style.display=(s==='all'||r.dataset.status===s)?'flex':'none';});
+// Combined filter state
+let activeStatus='all', activeRegion='all';
+
+function applyFilters(){
+  document.querySelectorAll('.row').forEach(r=>{
+    const statusOk = activeStatus==='all' || r.dataset.status===activeStatus;
+    const regionOk = activeRegion==='all' || r.dataset.region===activeRegion;
+    r.style.display = (statusOk && regionOk) ? 'flex' : 'none';
+  });
 }
+
+function filter(s,btn){
+  activeStatus = s==='all' && activeStatus===s ? 'all' : s;
+  // Toggle off if same
+  if(activeStatus===s && btn.classList.contains('active')){activeStatus='all';}
+  else activeStatus=s;
+  document.querySelectorAll('.filter-btn.status-btn').forEach(b=>b.classList.remove('active'));
+  if(activeStatus!=='all') btn.classList.add('active');
+  applyFilters();
+}
+
 function filterRegion(r,btn){
+  if(activeRegion===r){activeRegion='all'; btn.classList.remove('active');}
+  else{
+    activeRegion=r;
+    document.querySelectorAll('.filter-btn.region-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  applyFilters();
+}
+
+function resetFilters(){
+  activeStatus='all'; activeRegion='all';
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.row').forEach(row=>{row.style.display=row.dataset.region===r?'flex':'none';});
+  document.querySelector('.filter-btn.all-btn').classList.add('active');
+  applyFilters();
 }
 
 function renderHistory(){
@@ -624,7 +650,8 @@ function renderHistory(){
   }
 
   document.getElementById('history-content').innerHTML=projects.map(([name,data])=>{
-    const entries=[...data.entries].reverse();
+    // Newest first
+    const entries=[...data.entries].sort((a,b)=>new Date(b.date)-new Date(a.date)||0);
     const col=rc[data.region]||'#64748B';
     const curStatus=projectStatuses[name]||'';
     const statusCol=curStatus==='Completed'?'#38BDF8':curStatus==='Delayed'?'#EF4444':'#22C55E';
