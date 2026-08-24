@@ -45,14 +45,13 @@ jobs:
         run: |
           git config user.name "PMO Bot"
           git config user.email "pmo-bot@upstream"
-          # Push only index.html to gh-pages branch
-          git add index.html
-          git diff --staged --quiet && echo "No changes" && exit 0
-          git stash
-          # Switch to gh-pages branch
+          # Save the generated index.html
+          cp index.html /tmp/index.html
+          # Switch to gh-pages branch (force)
           git fetch origin gh-pages 2>/dev/null || true
-          git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout -B gh-pages
-          git stash pop
+          git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout --orphan gh-pages
+          # Overwrite with new index.html
+          cp /tmp/index.html index.html
           git add index.html
-          git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')" || echo "No changes"
           git push origin gh-pages --force
