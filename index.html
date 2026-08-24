@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Upstream — Global PMO Roadmap</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{--bg:#0F172A;--bg2:#0A1628;--bg3:#0D1F35;--bg4:#1E293B;--border:#1E3A5F;--text:#E2E8F0;--muted:#64748B;--subtle:#94A3B8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+#gate{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+#gate h1{font-size:28px;font-weight:700}
+#gate input{background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:8px;font-size:15px;width:280px;outline:none}
+#gate input:focus{border-color:#38BDF8}
+#gate button{background:#38BDF8;color:#0F172A;font-weight:600;padding:12px 32px;border:none;border-radius:8px;cursor:pointer;font-size:15px;width:280px}
+.err{color:#EF4444;font-size:13px;height:16px}
+#app{display:none}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
+.logo h1{font-size:20px;font-weight:700}
+.main-tabs{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px}
+.main-tab{padding:12px 20px;font-size:13px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.main-tab.active{color:#38BDF8;border-bottom-color:#38BDF8}
+.stats{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;gap:28px;align-items:center}
+.stat-val{font-size:26px;font-weight:700}
+.stat-lbl{font-size:12px;color:var(--muted)}
+.filters{padding:10px 32px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+.filter-btn{background:var(--bg4);border:1px solid var(--border);color:var(--subtle);padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
+.filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
+.gantt-wrap{padding:0 32px 32px 0;overflow-x:auto;scroll-behavior:smooth;position:relative}
+.gantt{min-width:2800px;width:2800px}
+.row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
+.row.even{background:var(--bg3)}
+.row-left{width:380px;min-width:380px;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:10;background:#0A1628}
+.tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
+.ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
+.pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-chart{flex:1;position:relative;height:100%;overflow:hidden}
+/* History tab */
+#history-tab{display:none;padding:24px 32px}
+.hist-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.hist-select{background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer}
+.project-block{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.project-header{padding:12px 16px;background:var(--bg3);display:flex;align-items:center;justify-content:space-between}
+.ph-left{display:flex;align-items:center;gap:10px}
+.ph-name{font-size:14px;font-weight:500}
+.ph-count{font-size:12px;color:var(--muted)}
+.timeline{padding:16px 16px 4px}
+.tl-item{display:flex;gap:12px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:10px;top:22px;width:1px;height:calc(100% + 4px);background:var(--border)}
+.tl-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);background:var(--bg);flex-shrink:0;margin-top:4px;z-index:1;display:flex;align-items:center;justify-content:center}
+.tl-dot.latest{border-color:#EF4444;background:#EF444422}
+.tl-content{padding:2px 0 20px}
+.tl-date{font-size:11px;color:var(--muted);margin-bottom:4px}
+.tl-reason{font-size:13px;color:var(--text);line-height:1.5}
+.region-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;display:inline-block}
+.empty{color:var(--muted);font-size:14px;padding:40px;text-align:center}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div style="text-align:center">
+    <div style="font-size:40px;margin-bottom:8px">📊</div>
+    <h1>Upstream <span style="color:#38BDF8">PMO</span></h1>
+    <p style="color:var(--muted);margin-top:4px;font-size:14px">Enter password to access the dashboard</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+    <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">Access Dashboard</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <div class="logo">
+      <h1>UPSTREAM <span style="color:#38BDF8">PMO</span></h1>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:2px;margin-top:2px">GLOBAL PROGRAM ROADMAP 2026</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="display:flex;gap:8px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#38BDF818;color:#38BDF8;border:1px solid #38BDF833"><span style="width:6px;height:6px;border-radius:50%;background:#38BDF8;display:inline-block"></span>LATAM</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#22C55E18;color:#22C55E;border:1px solid #22C55E33"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span>AFRICA</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#A78BFA18;color:#A78BFA;border:1px solid #A78BFA33"><span style="width:6px;height:6px;border-radius:50%;background:#A78BFA;display:inline-block"></span>EMENA</div><div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;background:#F59E0B18;color:#F59E0B;border:1px solid #F59E0B33"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block"></span>ASIA</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace">Updated: 24 Aug 2026, 16:06</div>
+    </div>
+  </header>
+
+  <div class="main-tabs">
+    <div class="main-tab active" onclick="showMainTab('roadmap',this)">Roadmap</div>
+    <div class="main-tab" onclick="showMainTab('history',this)">Delay History</div>
+  </div>
+
+  <div id="roadmap-tab">
+    <div class="stats">
+      <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#E2E8F0">2</span><span class="stat-lbl">Total</span></div>
+      <div style="width:1px;height:28px;background:var(--border)"></div>
+      <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#22C55E">0</span><span class="stat-lbl">On Track</span></div>
+      <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#EF4444">2</span><span class="stat-lbl">Delayed</span></div>
+      <div style="display:flex;align-items:baseline;gap:8px"><span class="stat-val" style="color:#38BDF8">0</span><span class="stat-lbl">Completed</span></div>
+      <div style="display:flex;gap:16px;margin-left:auto">
+        <div style="font-size:12px;font-weight:500;color:#38BDF8">LATAM: 0</div><div style="font-size:12px;font-weight:500;color:#22C55E">AFRICA: 2</div><div style="font-size:12px;font-weight:500;color:#A78BFA">EMENA: 0</div><div style="font-size:12px;font-weight:500;color:#F59E0B">ASIA: 0</div>
+      </div>
+    </div>
+    <div class="filters">
+      <button class="filter-btn all-btn active" onclick="resetFilters()">All</button>
+      <button class="filter-btn status-btn" onclick="filter('Delayed',this)">🚩 Delayed</button>
+      <button class="filter-btn status-btn" onclick="filter('On Track',this)">✅ On Track</button>
+      <button class="filter-btn status-btn" onclick="filter('Completed',this)">🏁 Completed</button>
+      <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+      <button class="filter-btn region-btn" onclick="filterRegion('LATAM',this)" style="color:#38BDF8">LATAM</button><button class="filter-btn region-btn" onclick="filterRegion('AFRICA',this)" style="color:#22C55E">AFRICA</button><button class="filter-btn region-btn" onclick="filterRegion('EMENA',this)" style="color:#A78BFA">EMENA</button><button class="filter-btn region-btn" onclick="filterRegion('ASIA',this)" style="color:#F59E0B">ASIA</button>
+    </div>
+    <div class="gantt-wrap">
+      <div class="gantt">
+        <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
+          
+        <div style="position:absolute;left:0%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(0% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Jan 2026</div>
+      
+        <div style="position:absolute;left:8.516483516483516%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(8.516483516483516% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Feb 2026</div>
+      
+        <div style="position:absolute;left:16.208791208791208%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(16.208791208791208% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Mar 2026</div>
+      
+        <div style="position:absolute;left:24.725274725274726%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(24.725274725274726% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Apr 2026</div>
+      
+        <div style="position:absolute;left:32.967032967032964%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(32.967032967032964% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">May 2026</div>
+      
+        <div style="position:absolute;left:41.48351648351649%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(41.48351648351649% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Jun 2026</div>
+      
+        <div style="position:absolute;left:49.72527472527473%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(49.72527472527473% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Jul 2026</div>
+      
+        <div style="position:absolute;left:58.24175824175825%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(58.24175824175825% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Aug 2026</div>
+      
+        <div style="position:absolute;left:66.75824175824175%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(66.75824175824175% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Sep 2026</div>
+      
+        <div style="position:absolute;left:75%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(75% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Oct 2026</div>
+      
+        <div style="position:absolute;left:83.51648351648352%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(83.51648351648352% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Nov 2026</div>
+      
+        <div style="position:absolute;left:91.75824175824175%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
+        <div style="position:absolute;left:calc(91.75824175824175% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">Dec 2026</div>
+      
+
+        </div>
+        <div id="rows">
+    <div class="row even" data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry"></span>
+        <span class="pname" title=""> [ZBT]</span>
+      </div>
+      <div class="row-chart">
+        
+        <div style="position:absolute;left:38.18681318681318%;width:26.55801717986874%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+        </div>
+        <div style="position:absolute;left:calc(64.74483036668192% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:64.74483036668192%;width:1.7386861168345575%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
+        
+        <div style="position:absolute;left:55.769230769230774%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 23/07/2026">
+          <div title="" style="background:#F59E0B;color:#000000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;cursor:help;white-space:nowrap;letter-spacing:0.3px">+6w</div>
+          <div style="font-size:8px;font-weight:700;color:#FFFFFF;white-space:nowrap">23/07</div>
+        </div>
+        
+      </div>
+      <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
+    </div>
+    <div class="row " data-region="AFRICA" data-status="Delayed">
+      <div class="row-left">
+        <span class="tag" style="background:#22C55E22;color:#22C55E;border:1px solid #22C55E44">AFRICA</span>
+        <span class="ctry"></span>
+        <span class="pname" title=""> [ZBB]</span>
+      </div>
+      <div class="row-chart">
+        
+        <div style="position:absolute;left:38.18681318681318%;width:26.55801717986874%;background:#EF444422;border:1px solid #EF444444;border-radius:4px;height:14px;top:50%;transform:translateY(-50%)">
+          <div style="width:100%;height:100%;background:#EF4444;border-radius:4px"></div>
+        </div>
+        <div style="position:absolute;left:calc(64.74483036668192% - 5px);width:10px;height:10px;border-radius:50%;background:#EF4444;top:50%;transform:translateY(-50%);border:2px solid #0F172A;z-index:2"></div>
+        <div style="position:absolute;left:64.74483036668192%;width:1.7386861168345575%;background:#EF444433;border:1px solid #EF444466;border-radius:0 4px 4px 0;height:14px;top:50%;transform:translateY(-50%)"></div><div style="position:absolute;left:calc(66.48351648351648% - 5px);width:10px;height:10px;border-radius:50%;background:#EF444444;top:50%;transform:translateY(-50%);border:2px dashed #EF4444;z-index:2"></div>
+        <div style="position:absolute;left:calc(66.48351648351648% - 4px);top:calc(50% + 8px);transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;border:2px solid #0F172A"></div><div style="font-size:7px;font-weight:700;color:#FFFFFF;white-space:nowrap;margin-top:1px">A 31/08</div></div>
+        
+        <div style="position:absolute;left:55.769230769230774%;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:4px" title="Planned: 23/07/2026">
+          <div title="" style="background:#F59E0B;color:#000000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px;cursor:help;white-space:nowrap;letter-spacing:0.3px">+6w</div>
+          <div style="font-size:8px;font-weight:700;color:#FFFFFF;white-space:nowrap">23/07</div>
+        </div>
+        
+      </div>
+      <div style="font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;border:1px solid #EF444444;background:#EF444411;color:#EF4444;white-space:nowrap;margin-right:8px">Delayed</div>
+    </div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="history-tab">
+    <div class="hist-filters">
+      <select class="hist-select" id="h-region" onchange="renderHistory()">
+        <option value="">All regions</option>
+        <option>LATAM</option><option>AFRICA</option><option>EMENA</option><option>ASIA</option>
+      </select>
+      <select class="hist-select" id="h-status" onchange="renderHistory()">
+        <option value="">All statuses</option>
+        <option>Delayed</option><option>On Track</option><option>Completed</option>
+      </select>
+      <a href="https://docs.google.com/spreadsheets/d/1tHF1FaQhfjAGltsQviqtloxmbKeW6oeyFJMXZ480Yus/edit?gid=695531852#gid=695531852"
+         target="_blank"
+         style="margin-left:auto;display:flex;align-items:center;gap:6px;background:#1E293B;border:1px solid #1E3A5F;color:#94A3B8;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;transition:all .15s"
+         onmouseover="this.style.borderColor='#38BDF8';this.style.color='#38BDF8'"
+         onmouseout="this.style.borderColor='#1E3A5F';this.style.color='#94A3B8'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Edit Delay Reasons
+      </a>
+    </div>
+    <div id="history-content"></div>
+  </div>
+</div>
+
+<script>
+const PW='PMODashboard!';
+const RC={"LATAM":"#38BDF8","AFRICA":"#22C55E","EMENA":"#A78BFA","ASIA":"#F59E0B"};
+const historyData={};
+const projectStatuses={"":"Delayed"}
+const projectTlc={"":"ZBB"};
+
+function checkPw(){
+  if(document.getElementById('pw').value===PW){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    sessionStorage.setItem('pmo_auth','1');
+    renderHistory();
+    setTimeout(scrollToToday,100);
+  } else {
+    document.getElementById('err').textContent='Incorrect password';
+    setTimeout(()=>document.getElementById('err').textContent='',2000);
+  }
+}
+if(sessionStorage.getItem('pmo_auth')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderHistory();
+}
+
+function showMainTab(tab, el){
+  document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('roadmap-tab').style.display = tab==='roadmap'?'block':'none';
+  document.getElementById('history-tab').style.display = tab==='history'?'block':'none';
+}
+
+// Auto-scroll so TODAY is visible (centered)
+function scrollToToday(){
+  const wrap = document.querySelector('.gantt-wrap');
+  const gantt = document.querySelector('.gantt');
+  if(!wrap||!gantt) return;
+  const ganttW = gantt.offsetWidth;
+  // Scroll so current month start is at left-ish, today near center
+  const todayPx = 64.74483036668192 / 100 * ganttW;
+  const wrapW = wrap.offsetWidth;
+  // Center the current month: offset by half viewport minus left col width
+  const leftColW = 340;
+  wrap.scrollLeft = Math.max(0, todayPx - (wrapW - leftColW) / 2);
+}
+if(sessionStorage.getItem('pmo_auth')==='1') setTimeout(scrollToToday,100);
+
+// Combined filter state
+let activeStatus='all', activeRegion='all';
+
+function applyFilters(){
+  document.querySelectorAll('.row').forEach(r=>{
+    const statusOk = activeStatus==='all' || r.dataset.status===activeStatus;
+    const regionOk = activeRegion==='all' || r.dataset.region===activeRegion;
+    r.style.display = (statusOk && regionOk) ? 'flex' : 'none';
+  });
+}
+
+function filter(s,btn){
+  activeStatus = s==='all' && activeStatus===s ? 'all' : s;
+  // Toggle off if same
+  if(activeStatus===s && btn.classList.contains('active')){activeStatus='all';}
+  else activeStatus=s;
+  document.querySelectorAll('.filter-btn.status-btn').forEach(b=>b.classList.remove('active'));
+  if(activeStatus!=='all') btn.classList.add('active');
+  applyFilters();
+}
+
+function filterRegion(r,btn){
+  if(activeRegion===r){activeRegion='all'; btn.classList.remove('active');}
+  else{
+    activeRegion=r;
+    document.querySelectorAll('.filter-btn.region-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  applyFilters();
+}
+
+function resetFilters(){
+  activeStatus='all'; activeRegion='all';
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filter-btn.all-btn').classList.add('active');
+  applyFilters();
+}
+
+function renderHistory(){
+  const region=document.getElementById('h-region').value;
+  const statusF=document.getElementById('h-status').value;
+  const rc={LATAM:'#38BDF8',AFRICA:'#22C55E',EMENA:'#A78BFA',ASIA:'#F59E0B'};
+
+  const projects=Object.entries(historyData).filter(([name,data])=>{
+    if(region&&data.region!==region) return false;
+    if(statusF&&projectStatuses[name]!==statusF) return false;
+    return true;
+  });
+
+  if(projects.length===0){
+    document.getElementById('history-content').innerHTML='<div class="empty">No delay history found for the selected filters.</div>';
+    return;
+  }
+
+  document.getElementById('history-content').innerHTML=projects.map(([name,data])=>{
+    // Newest first
+    const entries=[...data.entries].sort((a,b)=>new Date(b.date)-new Date(a.date)||0);
+    const col=rc[data.region]||'#64748B';
+    const curStatus=projectStatuses[name]||'';
+    const statusCol=curStatus==='Completed'?'#38BDF8':curStatus==='Delayed'?'#EF4444':'#22C55E';
+    const tl=entries.map(function(e,i){
+      return '<div class="tl-item">'
+        +'<div class="tl-dot'+(i===0?' latest':'')+'"></div>'
+        +'<div class="tl-content">'
+        +'<div class="tl-date">'+e.date+'</div>'
+        +'<div class="tl-reason">'+e.reason+'</div>'
+        +'</div></div>';
+    }).join('');
+    return '<div class="project-block">'
+      +'<div class="project-header">'
+      +'<div class="ph-left">'
+      +'<span class="region-badge" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+data.region+'</span>'
+      +'<span class="ph-name">'+name+(projectTlc[name]?' ['+projectTlc[name]+']':'')+'</span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:12px">'
+      +'<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:'+statusCol+'18;color:'+statusCol+';border:1px solid '+statusCol+'33">'+curStatus+'</span>'
+      +'<span class="ph-count">'+entries.length+' update'+(entries.length!==1?'s':'')+'</span>'
+      +'</div></div>'
+      +'<div class="timeline">'+tl+'</div>'
+      +'</div>';
+  }).join('');
+}
+</script>
+</body>
+</html>

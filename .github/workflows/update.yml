@@ -1,0 +1,57 @@
+name: Update PMO Roadmap
+
+on:
+  schedule:
+    - cron: '*/30 5-18 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: pmo-update
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get Google OAuth token
+        id: token
+        run: |
+          TOKEN=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -d "client_id=${{ secrets.GOOGLE_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}" \
+            -d "refresh_token=${{ secrets.GOOGLE_REFRESH_TOKEN }}" \
+            -d "grant_type=refresh_token" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Generate dashboard
+        env:
+          GOOGLE_TOKEN: ${{ steps.token.outputs.token }}
+        run: node generate.js
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config user.name "PMO Bot"
+          git config user.email "pmo-bot@upstream"
+          # Save the generated index.html
+          cp index.html /tmp/index.html
+          # Switch to gh-pages branch (force)
+          git fetch origin gh-pages 2>/dev/null || true
+          git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout --orphan gh-pages
+          # Overwrite with new index.html
+          cp /tmp/index.html index.html
+          git add index.html
+          git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')" || echo "No changes"
+          git push origin gh-pages --force
