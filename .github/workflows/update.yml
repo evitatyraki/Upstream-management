@@ -45,11 +45,14 @@ jobs:
         run: |
           git config user.name "PMO Bot"
           git config user.email "pmo-bot@upstream"
+          # Push only index.html to gh-pages branch
           git add index.html
           git diff --staged --quiet && echo "No changes" && exit 0
           git stash
-          git pull --rebase origin main
+          # Switch to gh-pages branch
+          git fetch origin gh-pages 2>/dev/null || true
+          git checkout -B gh-pages origin/gh-pages 2>/dev/null || git checkout -B gh-pages
           git stash pop
           git add index.html
           git commit -m "🔄 Auto-update $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git push origin main --force-with-lease
+          git push origin gh-pages --force
