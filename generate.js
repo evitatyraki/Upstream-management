@@ -350,7 +350,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'};width:380px;min-width:380px;border-right:16px solid ${i%2===0?'#0D1F35':'#0F172A'};margin-right:-16px">
+      <div class="row-left">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -437,7 +437,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .gantt{min-width:2800px;width:2800px}
 .row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
 .row.even{background:var(--bg3)}
-.row-left{width:380px;min-width:380px;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:5;box-shadow:4px 0 8px rgba(0,0,0,0.4)}
+.row-left{width:380px;min-width:380px;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:10;background:#0A1628}
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -520,7 +520,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
         <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;">
           ${months.map(m=>`
         <div style="position:absolute;left:${m.pct1}%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
-        <div style="position:absolute;left:${m.pct1}%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">${m.label}</div>
+        <div style="position:absolute;left:calc(${m.pct1}% + 4px);font-size:11px;font-weight:600;color:var(--subtle);padding-top:8px;white-space:nowrap">${m.label}</div>
       `).join('')}
 
         </div>
