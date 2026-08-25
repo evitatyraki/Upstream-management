@@ -350,7 +350,7 @@ function generateHTML(projects, historyData) {
     const dn=fullName.length>44?p.name.slice(0,40)+'…'+tlcSuffix:fullName;
     return `
     <div class="row ${i%2===0?'even':''}" data-region="${p.region}" data-status="${p.status}">
-      <div class="row-left" style="--row-bg:${i%2===0?'#0D1F35':'#0F172A'}">
+      <div class="row-left" style="background:${i%2===0?'#0D1F35':'#0F172A'}">
         <span class="tag" style="background:${RC[p.region]}22;color:${RC[p.region]};border:1px solid ${RC[p.region]}44">${p.region}</span>
         <span class="ctry">${p.country}</span>
         <span class="pname" title="${p.name}">${dn}</span>
@@ -393,15 +393,28 @@ function generateHTML(projects, historyData) {
   }).join('');
 
   // History tab data as JSON
+  // Each row in history = one change event with previous + new reason
+  // We show each state as a separate timeline entry
   const historyByProject = {};
   historyData.forEach(row => {
     const name = Array.isArray(row) ? row[1] : row['Project Name'];
     const region = Array.isArray(row) ? row[2] : row['Region'];
     const date = Array.isArray(row) ? row[0] : row['Date'];
-    const reason = Array.isArray(row) ? (row[5]||row[4]||'') : (row['New Reason']||row['Previous Reason']||'');
-    if (!name || !reason) return;
+    const prevReason = Array.isArray(row) ? row[4] : row['Previous Reason'];
+    const newReason = Array.isArray(row) ? row[5] : row['New Reason'];
+    if (!name) return;
     if (!historyByProject[name]) historyByProject[name] = {region, entries:[]};
-    historyByProject[name].entries.push({date, reason});
+    // Add previous reason as an older entry (if exists and not already logged)
+    if (prevReason && prevReason.trim()) {
+      const alreadyExists = historyByProject[name].entries.some(e => e.reason === prevReason.trim() && e.date === date);
+      if (!alreadyExists) {
+        historyByProject[name].entries.push({date, reason: prevReason.trim(), isCurrent: false});
+      }
+    }
+    // Add new reason as latest entry
+    if (newReason && newReason.trim()) {
+      historyByProject[name].entries.push({date, reason: newReason.trim(), isCurrent: true});
+    }
   });
 
   return `<!DOCTYPE html>
@@ -435,13 +448,13 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
 .filter-btn:hover,.filter-btn.active{border-color:#38BDF8;color:#38BDF8;background:#38BDF811}
 .gantt-wrap{padding:0 32px 32px 0;overflow-x:auto;scroll-behavior:smooth;position:relative}
 .gantt{min-width:2800px;width:2800px}
-.row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33}
-.row.even{background:var(--bg3)}
-.row-left{width:380px;min-width:380px;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:10;background:var(--row-bg,#0F172A)}
+.row{display:flex;align-items:center;height:38px;border-bottom:1px solid #1E293B33;min-width:2800px}
+.row.even{background:var(--bg3)} .row.even .row-left{background:#0D1F35} .row:not(.even) .row-left{background:#0F172A}
+.row-left{width:380px;min-width:380px;flex-shrink:0;display:flex;align-items:center;gap:6px;padding:0 16px 0 0;position:sticky;left:0;z-index:10}
 .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;white-space:nowrap}
 .ctry{font-size:10px;font-weight:600;color:var(--muted);background:var(--bg4);padding:2px 5px;border-radius:4px;min-width:20px;text-align:center}
 .pname{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row-chart{width:2420px;min-width:2420px;position:relative;height:100%;overflow:visible;flex-shrink:0}
+.row-chart{flex:1;min-width:2420px;position:relative;height:100%}
 /* History tab */
 #history-tab{display:none;padding:24px 32px}
 .hist-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
@@ -517,11 +530,12 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 
     </div>
     <div class="gantt-wrap">
       <div class="gantt">
-        <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;margin-left:380px;width:2420px;">
+        <div style="display:flex;height:40px;border-bottom:1px solid var(--border);position:relative;width:2800px;"><div style="width:380px;flex-shrink:0"></div><div style="flex:1;min-width:2420px;position:relative">
           ${months.map(m=>`
         <div style="position:absolute;left:${m.pct1}%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.4"></div>
         <div style="position:absolute;left:${m.pct1}%;font-size:11px;font-weight:600;color:var(--subtle);padding:8px 0 0 5px;white-space:nowrap">${m.label}</div>
       `).join('')}
+      </div></div>
 
         </div>
         <div id="rows">${rowsHTML}</div>
